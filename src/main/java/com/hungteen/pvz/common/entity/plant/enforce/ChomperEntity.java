@@ -130,8 +130,9 @@ public class ChomperEntity extends PVZPlantEntity {
 	/**
 	 * rest time after each kill.
 	 */
+	//休息时间减半
 	public int getRestCD() {
-		return 800;
+		return 400;
 	}
 
 	/**

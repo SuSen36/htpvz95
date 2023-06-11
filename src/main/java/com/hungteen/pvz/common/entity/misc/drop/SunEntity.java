@@ -95,7 +95,7 @@ public class SunEntity extends DropEntity {
 		final int value = this.getAmount();
 		return value < 6 ? 0 : value < 16 ? 1 : value < 26 ? 2 : 3;
 	}
-
+   //一个阳光为50
 	protected int getDefaultAmount() {
 		return 50;
 	}
