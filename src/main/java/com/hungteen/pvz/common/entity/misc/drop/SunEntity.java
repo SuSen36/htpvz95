@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hungteen.pvz.PVZConfig;
 import com.hungteen.pvz.common.entity.EntityRegister;
+import com.hungteen.pvz.common.entity.bullet.itembullet.PeaEntity;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.MathUtil;
@@ -31,9 +32,11 @@ public class SunEntity extends DropEntity {
 	public Vector3d ColorChange = new Vector3d(0,25,15);
 	private Entity following;
 
+	public static final int SUN_TYPES = 3;
+
 	public SunEntity(EntityType<? extends MobEntity> type, World worldIn) {
 		super(type, worldIn);
-		setAmount(this.getDefaultAmount());
+		setAmountByType(this.getDefaultSun());
 		this.setNoGravity(true);
 	}
 
@@ -96,10 +99,12 @@ public class SunEntity extends DropEntity {
 		return value < 6 ? 0 : value < 16 ? 1 : value < 26 ? 2 : 3;
 	}
    //一个阳光为50
-	protected int getDefaultAmount() {
-		return 50;
+	protected SunType getDefaultSun() {
+		return SunType.MEDIUM;
 	}
-
+	protected SunType getRandomType() {
+		return SunType.values()[this.random.nextInt(SUN_TYPES)];
+	}
 	@Override
 	public void onCollectedByPlayer(PlayerEntity living) {
 		if(! level.isClientSide) {
@@ -132,7 +137,6 @@ public class SunEntity extends DropEntity {
 			dropSunRandomly(world, pos, amount, speed);
 		}
 	}
-
 	/**
 	 * spawn random speed sun entity with specific amount.
 	 */
@@ -153,11 +157,21 @@ public class SunEntity extends DropEntity {
 		}
 		return worldIn.getBrightness(LightType.SKY, pos) >= 15;
 	}
+	public void setAmountByType(SunEntity.SunType type) {
+		this.setAmount(type.sun);
+	}
 
 	@Override
 	public int getMaxLiveTick() {
 		return PVZConfig.COMMON_CONFIG.EntitySettings.EntityLiveTick.SunLiveTick.get();
 	}
+	public enum SunType{
+		BIG(75),MEDIUM(50), SMALL(25);
+		public final int sun;
 
+		private SunType(int sun) {
+			this.sun = sun;
+		}
+	}
 
 }

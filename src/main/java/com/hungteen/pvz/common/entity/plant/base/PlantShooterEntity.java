@@ -4,7 +4,6 @@ import com.hungteen.pvz.api.interfaces.IAlmanacEntry;
 import com.hungteen.pvz.common.entity.ai.goal.target.PVZNearestTargetGoal;
 import com.hungteen.pvz.common.entity.bullet.AbstractBulletEntity;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
-import com.hungteen.pvz.common.entity.plant.appease.StarFruitEntity;
 import com.hungteen.pvz.common.entity.plant.spear.CatTailEntity;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.enums.PAZAlmanacs;
@@ -258,9 +257,8 @@ public abstract class PlantShooterEntity extends PVZPlantEntity implements IShoo
 
 		@Override
 		public void tick() {
-			if(! (this.shooter instanceof StarFruitEntity)) {//star fruit don't need to look at target.
-				this.shooter.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
-			}
+			this.shooter.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+
 			if(this.shooter.isPlantInSuperMode()) {
 				this.shooter.startShootAttack();
 				this.shooter.setShootTick(0);

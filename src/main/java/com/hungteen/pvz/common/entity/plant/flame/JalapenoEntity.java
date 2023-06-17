@@ -1,5 +1,6 @@
 package com.hungteen.pvz.common.entity.plant.flame;
 
+import com.hungteen.pvz.api.interfaces.IIceEffect;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.common.entity.misc.ElementBallEntity;
 import com.hungteen.pvz.common.entity.misc.ElementBallEntity.ElementTypes;
@@ -10,16 +11,20 @@ import com.hungteen.pvz.common.impl.SkillTypes;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
+import com.hungteen.pvz.common.potion.EffectRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.WorldUtil;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class JalapenoEntity extends PlantBomberEntity{
+import java.util.Optional;
+
+public class JalapenoEntity extends PlantBomberEntity implements IIceEffect {
 
 	public JalapenoEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -43,12 +48,20 @@ public class JalapenoEntity extends PlantBomberEntity{
 	 * jalapeno fire mobs.
 	 * {@link #startBomb(boolean)}
 	 */
-	public static void fireMob(LivingEntity entity, float dx, float dz) {
+	public void fireMob(LivingEntity entity, float dx, float dz) {
 		final AxisAlignedBB aabb = new AxisAlignedBB(entity.position().add(dx, 1, dz), entity.position().add(- dx, - 1, - dz));
 		for(Entity target : EntityUtil.getWholeTargetableEntities(entity, aabb)) {
-			float damage = 0;
+			float damage = this.getAttackDamage();
 			if(entity instanceof JalapenoEntity) {
+				if(EntityUtil.getCurrentHealth((LivingEntity) target) <= damage){
 				damage = ((JalapenoEntity) entity).getExplodeDamage();
+				}else {
+					//冰冻
+					target.hurt(PVZEntityDamageSource.explode(this), damage);
+					((LivingEntity) target).addEffect(this.getFrozenEffect().get());
+					((LivingEntity) target).addEffect(this.getColdEffect().get());
+
+				}
 			} else if(entity instanceof JalapenoZombieEntity) {
 				if(target instanceof LivingEntity) {
 					damage = EntityUtil.getMaxHealthDamage((LivingEntity) target, 2);
@@ -128,7 +141,25 @@ public class JalapenoEntity extends PlantBomberEntity{
 	public int getReadyTime() {
 		return 20;
 	}
+	//冰爆伤害
+	public float getAttackDamage() {
+		return this.getSkillValue(SkillTypes.NORMAL_BOMB_DAMAGE)*2/3;//伤害乘2/3
+	}
+	public int getColdDuration() {
+		return 120;
+	}//6秒
 
+	private static final int FROZEN_TICK = 5;
+
+	@Override
+	public Optional<EffectInstance> getColdEffect() {
+		return Optional.of(new EffectInstance(EffectRegister.COLD_EFFECT.get(), FROZEN_TICK + this.getColdDuration(), 2, false, false));
+	}
+
+	@Override
+	public Optional<EffectInstance> getFrozenEffect() {
+		return Optional.of(new EffectInstance(EffectRegister.FROZEN_EFFECT.get(), FROZEN_TICK, 1, false, false));
+	}
 	@Override
 	public IPlantType getPlantType() {
 		return PVZPlants.JALAPENO;

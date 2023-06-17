@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SquashEntity extends PVZPlantEntity{
 
-	private static final int TARGET_RANGE = 3;
+	public static final int TARGET_RANGE = 3;
 	protected int extraChance = 0;
 	
 	public SquashEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
@@ -87,7 +87,7 @@ public class SquashEntity extends PVZPlantEntity{
 		this.canCollideWithPlant = true;
 		this.isImmuneToWeak = false;
 		EntityUtil.playSound(this, SoundRegister.GROUND_SHAKE.get());
-		final float range = 1F;
+		final float range = 2F;//范围乘2
 		for(Entity entity : EntityUtil.getWholeTargetableEntities(this, EntityUtil.getEntityAABB(this, range, range))) {
 			entity.hurt(PVZEntityDamageSource.causeCrushDamage(this), this.getAttackDamage());
 		}

@@ -8,6 +8,7 @@ import com.hungteen.pvz.common.entity.ai.goal.target.PVZTargetGoal;
 import com.hungteen.pvz.common.entity.bullet.itembullet.MetalItemEntity;
 import com.hungteen.pvz.common.entity.bullet.itembullet.MetalItemEntity.MetalStates;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
+import com.hungteen.pvz.common.entity.zombie.grass.FootballZombieEntity;
 import com.hungteen.pvz.common.impl.SkillTypes;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
@@ -142,10 +143,10 @@ public class MagnetShroomEntity extends PVZPlantEntity {
 		if(this.getMetalType() == null) return ItemStack.EMPTY;
 		return new ItemStack(MetalTypes.getMetalItem(getMetalType()));
 	}
-	
+	//不能吸橄榄球僵尸
 	@Override
 	public boolean canPAZTarget(Entity entity) {
-		return entity instanceof IHasMetal && ((IHasMetal) entity).hasMetal();
+		return entity instanceof IHasMetal && ((IHasMetal) entity).hasMetal()&&!(entity instanceof FootballZombieEntity);
 	}
 	
 	@Override

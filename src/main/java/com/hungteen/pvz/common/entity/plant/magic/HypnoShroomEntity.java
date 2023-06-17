@@ -66,7 +66,7 @@ public class HypnoShroomEntity extends PVZPlantEntity implements ICanAttract {
                         GargantuarEntity gar = EntityRegister.GARGANTUAR.get().create(level);
                         EntityUtil.onEntitySpawn(level, gar, source.getEntity().blockPosition());
                         gar.setZombieType(PVZZombieEntity.VariantType.NORMAL);
-                        gar.setHealth(gar.getMaxHealth() * this.getSummonHealth());
+                        gar.setHealth(gar.getMaxHealth() + this.getSummonHealth());
                         gar.setCharmed(!this.isCharmed());
                     }
                 } else {
@@ -88,8 +88,8 @@ public class HypnoShroomEntity extends PVZPlantEntity implements ICanAttract {
     /**
      * the current health of gargangtuar when summoning.
      */
-    public float getSummonHealth() {
-        return 0.7F;
+    public static float getSummonHealth() {
+        return 200;
     }
 
     @Override

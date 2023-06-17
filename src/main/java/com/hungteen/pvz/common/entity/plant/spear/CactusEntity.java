@@ -21,7 +21,7 @@ public class CactusEntity extends PlantShooterEntity {
 
 	private static final DataParameter<Float> CACTUS_HEIGHT = EntityDataManager.defineId(CactusEntity.class, DataSerializers.FLOAT);
 	private static final DataParameter<Boolean> POWERED = EntityDataManager.defineId(CactusEntity.class, DataSerializers.BOOLEAN);
-	public static final float MAX_SEGMENT_NUM = 4;
+	public static final float MAX_SEGMENT_NUM = 6;
 	public static final float SEGMENT_HEIGHT = 0.54F;
 	private static final float MIN_SHOOT_HEIGHT = 1.25F;
 	private static final float MAX_SHOOT_HEIGHT = MIN_SHOOT_HEIGHT + MAX_SEGMENT_NUM * SEGMENT_HEIGHT;
@@ -77,7 +77,7 @@ public class CactusEntity extends PlantShooterEntity {
 		final ThornEntity thorn = new ThornEntity(level, this);
 		thorn.setThornType(ThornTypes.NORMAL);
 		thorn.setThornState(this.isCactusPowered() ? ThornStates.POWER : ThornStates.NORMAL);
-		thorn.setExtraHitCount(this.isCactusPowered() ? this.getThornCount() : 1);
+		thorn.setExtraHitCount(this.isCactusPowered() ? this.getThornCount() : 5);//5段穿透
 		return thorn;
 	}
 	
@@ -97,7 +97,7 @@ public class CactusEntity extends PlantShooterEntity {
 	}
 
 	public int getThornCount() {
-		return 3;
+		return 8;
 	}
 	
 	public float getCurrentHeight() {

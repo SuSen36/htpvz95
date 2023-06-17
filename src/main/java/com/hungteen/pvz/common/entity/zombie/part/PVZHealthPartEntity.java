@@ -22,13 +22,13 @@ public class PVZHealthPartEntity extends PVZZombiePartEntity{
 	@Override
 	public boolean hurt(DamageSource source, float damage) {
 		//the source can pass through defence and deal damage to owner directly.
-		if(source instanceof PVZEntityDamageSource) {
-			if(((PVZEntityDamageSource) source).isThroughDamage()) {
-				return super.hurt(source, damage);
-			}
-			((PVZEntityDamageSource) source).setDefended(true);
-		}
-		this.zombie.hitDefence = true;
+	//	if(source instanceof PVZEntityDamageSource) {
+	//		if(((PVZEntityDamageSource) source).isThroughDamage()) {
+	//			return super.hurt(source, damage);
+	//		}
+	//		((PVZEntityDamageSource) source).setDefended(true);
+	//	}
+		//this.zombie.hitDefence = true;
 		return super.hurt(source, damage);
 	}
 	

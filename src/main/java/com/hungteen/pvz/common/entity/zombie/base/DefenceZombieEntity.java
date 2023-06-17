@@ -18,8 +18,9 @@ import net.minecraft.world.World;
 public abstract class DefenceZombieEntity extends PVZZombieEntity implements IMultiPartZombie{
 
 	protected PVZHealthPartEntity part;
-	public boolean hitDefence = false;
-	
+	//95版判定
+	//public boolean hitDefence = false;
+
 	public DefenceZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 		resetParts();
@@ -87,7 +88,7 @@ public abstract class DefenceZombieEntity extends PVZZombieEntity implements IMu
 		if(! this.level.isClientSide){
 			EntityUtil.playSound(this, this.getPartDeathSound());
 		}
-		this.hitDefence = false;
+	//	this.hitDefence = false;
 	}
 
 	@Override
@@ -96,12 +97,12 @@ public abstract class DefenceZombieEntity extends PVZZombieEntity implements IMu
 		if(! this.level.isClientSide){
 			EntityUtil.playSound(this, this.getPartHurtSound());
 		}
-		this.hitDefence = false;
+	//	this.hitDefence = false;
 	}
 
 	@Override
 	public boolean canOuterDefend(DamageSource source) {
-		return super.canOuterDefend(source) && this.hitDefence;
+		return super.canOuterDefend(source) ;
 	}
 
 	protected float getPartHeightOffset() {

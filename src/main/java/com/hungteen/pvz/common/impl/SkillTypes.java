@@ -127,14 +127,18 @@ public class SkillTypes {
 
     //cactus
     public static final ISkillType MORE_THORN_DAMAGE = new SkillType("more_thorn_damage",
-            ArrayUtil.getAverageArray(6, 2F, 3.5F),
+            ArrayUtil.getAverageArray(5, 2F, 3.5F),
             Arrays.asList(2, 3, 5, 6, 9)
     );
-
+    //cat
+    public static final ISkillType MORE_GUIDE_THORN_DAMAGE = new SkillType("more_guide_thorn_damage",
+            ArrayUtil.getAverageArray(3, 2F, 3.5F),
+            Arrays.asList(2,4,5)
+    );
     //blover.
     public static final ISkillType BLOW_STRENGTH = new SkillType("blow_strength",
             ArrayUtil.getAverageArray(5, 10F, 50F),
-            Arrays.asList(2, 3, 5, 7)
+            Arrays.asList(5, 7, 10, 12)//初始2.5颗豌豆
     );
 
     //split pea.

@@ -63,7 +63,9 @@ public class SunRender extends EntityRenderer<SunEntity> {
 		stack.translate(0.0D, (double) 0.1F, 0.0D);
 		stack.mulPose(this.entityRenderDispatcher.cameraOrientation());
 		stack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
-		final float size = 0.4F;
+		
+		final float size =sun.getAmount() * 1f / 200 + 0.2f;
+
 		stack.scale(size, size, size);
 		IVertexBuilder vertexconsumer = bufferSource.getBuffer(RENDER_TYPE);//majiang buzhidao gaizhemeduo mingzi ganma woxiang nengsitayade
 		MatrixStack.Entry posestack$pose = stack.last();

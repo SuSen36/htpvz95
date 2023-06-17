@@ -35,13 +35,28 @@ public class ScreenDoorZombieEntity extends DefenceZombieEntity implements IHasM
 	public void decreaseMetal() {
 		this.setOuterDefenceLife(0);
 	}
-
+	//铁桶
 	@Override
 	public void increaseMetal() {
 		this.setOuterDefenceLife(this.getOuterLife());
 		this.resetParts();
 	}
-	
+	//铁桶状态
+	public boolean hasBucketHead(int stage) {
+		final double percent = this.getInnerDefenceLife() / this.getInnerLife();
+		if(stage == 3) {
+			return percent > 2.0f / 3;
+		} else if(stage == 2) {
+			return percent > 1.0f / 3;
+		} else if(stage == 1) {
+			return percent > 0;
+		}
+		return false;
+	}
+	@Override
+	public float getInnerLife() {
+		return 110;
+	}
 	@Override
 	public boolean canLostHand() {
 		return super.canLostHand() && ! this.hasMetal();

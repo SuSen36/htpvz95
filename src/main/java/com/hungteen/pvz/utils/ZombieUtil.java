@@ -31,6 +31,8 @@ public class ZombieUtil {
 	public static final float WATER_FAST = 0.8F;
 	public static final float FLY_FAST = 0.5F;
 
+
+
 	// attack damage
 	public static final float HUGE_LOW = 3;
 	public static final float VERY_LOW = 4;
@@ -42,6 +44,8 @@ public class ZombieUtil {
 	public static final float VERY_HIGH = 30;
 	public static final float HUGE_HIGH = 50;
 	public static final float SUPER_HIGH = 100;
+
+
 
 	// range
 	public static final float CLOSE_TARGET_RANGE = 40;

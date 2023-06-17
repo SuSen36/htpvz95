@@ -63,7 +63,7 @@ public class PotatoMineEntity extends PlantCloserEntity{
 	@Override
 	public void performAttack(LivingEntity target1) {
 		if(! this.level.isClientSide) {
-			final float range = 1.6F;
+			final float range = 3F;//范围改为3*3
 			final AxisAlignedBB aabb = EntityUtil.getEntityAABB(this, range, range);
 			EntityUtil.getWholeTargetableEntities(this, aabb).forEach(target -> {
 				target.hurt(PVZEntityDamageSource.explode(this), this.getExplodeDamage());

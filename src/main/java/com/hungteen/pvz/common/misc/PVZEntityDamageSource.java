@@ -65,7 +65,9 @@ public class PVZEntityDamageSource extends EntityDamageSource {
 	public static PVZEntityDamageSource flamePea(PeaEntity pea, Entity shooter) {
 		return (PVZEntityDamageSource) new PVZEntityDamageSource("flame_pea", pea, shooter).setAppease().setFlameDamage();
 	}
-	
+	public static PVZEntityDamageSource blueFlamePea(PeaEntity pea, Entity shooter) {
+		return (PVZEntityDamageSource) new PVZEntityDamageSource("blue_flame_pea", pea, shooter).setAppease().setIceDamage();
+	}
 	public static PVZEntityDamageSource spore(SporeEntity pea, Entity shooter) {
 		return (PVZEntityDamageSource) new PVZEntityDamageSource("spore", pea, shooter).setAppease();
 	}

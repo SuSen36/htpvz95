@@ -2,17 +2,22 @@ package com.hungteen.pvz.common.entity.plant.assist;
 
 import com.hungteen.pvz.api.interfaces.IAlmanacEntry;
 import com.hungteen.pvz.api.types.IPlantType;
+import com.hungteen.pvz.common.entity.EntityRegister;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
+import com.hungteen.pvz.common.entity.zombie.base.DefenceZombieEntity;
+import com.hungteen.pvz.common.entity.zombie.grass.ConeHeadZombieEntity;
 import com.hungteen.pvz.common.entity.zombie.pool.BalloonZombieEntity;
 import com.hungteen.pvz.common.impl.SkillTypes;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
+import com.hungteen.pvz.common.potion.EffectRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.MathUtil;
 import com.hungteen.pvz.utils.enums.PAZAlmanacs;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.*;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -38,7 +43,7 @@ public class BloverEntity extends PVZPlantEntity {
 			}
 		}
 	}
-	
+	//完成
 	public void blow() {
 		if(! this.level.isClientSide) {
 			final float len = this.getBlowRange();
@@ -50,6 +55,13 @@ public class BloverEntity extends PVZPlantEntity {
 					final double lvl = this.getForceLevel() * 2.5F;
 					final Vector3d delta = MathUtil.getHorizontalNormalizedVec(this.position(), target.position()).scale(lvl);
 					target.setDeltaMovement(speed.x + delta.x, speed.y, speed.z + delta.z);
+				}else if(target instanceof DefenceZombieEntity && ((DefenceZombieEntity) target).getCurrentHealth()<=20){
+					((DefenceZombieEntity)(target)).addEffect(new EffectInstance(EffectRegister.FROZEN_EFFECT.get(),3,100,false,false));
+				}else {target.hurt(PVZEntityDamageSource.normal(this).setMustHurt(), this.getAttackDamage());}
+				if(target instanceof ConeHeadZombieEntity){
+					if(((ConeHeadZombieEntity) target).getInnerDefenceLife() > 0){
+						target.hurt(PVZEntityDamageSource.normal(this).setMustHurt(), 40);
+					}
 				}
 			});
 		}
@@ -82,11 +94,11 @@ public class BloverEntity extends PVZPlantEntity {
 	}
 	
 	public int getForceLevel() {
-		return 2;
+		return 4;//乘2
 	}
 
 	public float getBlowRange(){
-		return 30;
+		return 60;//乘2
 	}
 
 	public int getReadyTime() {

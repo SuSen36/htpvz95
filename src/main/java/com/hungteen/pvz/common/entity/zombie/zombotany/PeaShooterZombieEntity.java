@@ -4,13 +4,11 @@ import com.hungteen.pvz.common.entity.bullet.itembullet.PeaEntity;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.common.impl.zombie.Zombotanies;
 import com.hungteen.pvz.common.potion.EffectRegister;
-import com.hungteen.pvz.common.misc.PVZLoot;
 import com.hungteen.pvz.utils.EntityUtil;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 

@@ -9,10 +9,8 @@ import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.MathUtil;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
+import com.hungteen.pvz.utils.interfaces.ICanAttract;
+import net.minecraft.entity.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -156,8 +154,13 @@ public class ScaredyShroomEntity extends PlantShooterEntity {
     public void setScareTime(int time) {
     	this.entityData.set(SCARE_TIME, time);
     }
-    
-    @Override
+    //投降
+	@Override
+	public boolean canBeTargetBy(LivingEntity living) {
+		return !this.isScared() && !hasMetal();
+	}
+
+	@Override
 	public IPlantType getPlantType() {
 		return PVZPlants.SCAREDY_SHROOM;
 	}

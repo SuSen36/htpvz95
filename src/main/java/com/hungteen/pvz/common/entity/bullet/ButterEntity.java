@@ -24,7 +24,8 @@ public class ButterEntity extends PultBulletEntity {
 	protected void dealDamage(Entity target) {
 		PVZEntityDamageSource source = PVZEntityDamageSource.butter(this, this.getThrower());
 		if(this.getThrower() instanceof KernelPultEntity) {
-			source.addEffect(((KernelPultEntity) this.getThrower()).getButterEffect());
+				source.addEffect(((KernelPultEntity) this.getThrower()).getFrozenEffect().get());//冰冻
+				source.addEffect(((KernelPultEntity) this.getThrower()).getColdEffect().get());//减速
 		}
 		target.hurt(source, this.attackDamage);
 	}

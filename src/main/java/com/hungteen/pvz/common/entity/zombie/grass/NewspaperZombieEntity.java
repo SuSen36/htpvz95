@@ -8,9 +8,9 @@ import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EffectUtil;
 import com.hungteen.pvz.utils.EntityUtil;
-import com.hungteen.pvz.utils.MathUtil;
 import com.hungteen.pvz.utils.ZombieUtil;
 import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.SoundEvent;
@@ -21,12 +21,12 @@ public class NewspaperZombieEntity extends DefenceZombieEntity {
 	public NewspaperZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
-	
+
 	@Override
-	protected void initAttributes() {
-		super.initAttributes();
+	protected float getModifyAttackDamage(Entity entity, float f) {
+		return 20;
 	}
-	
+
 	@Override
 	public void resetParts() {
 		removeParts();
@@ -44,8 +44,8 @@ public class NewspaperZombieEntity extends DefenceZombieEntity {
 	public void onOuterDefenceBroken() {
 		super.onOuterDefenceBroken();
 		if(! this.level.isClientSide){
-			this.addEffect(EffectUtil.effect(Effects.MOVEMENT_SPEED, 120000, 1));
-			this.addEffect(EffectUtil.effect(Effects.DAMAGE_BOOST, 120000, MathUtil.getRandomMinMax(this.random, 1, this.getAngryLevel())));
+			this.addEffect(EffectUtil.effect(Effects.MOVEMENT_SPEED, 120000, 4));
+			this.addEffect(EffectUtil.effect(Effects.DIG_SPEED, 120000, 5));
 			EntityUtil.playSound(this, SoundRegister.ZOMBIE_ANGRY.get());
 		}
 	}
@@ -77,12 +77,12 @@ public class NewspaperZombieEntity extends DefenceZombieEntity {
 	
 	@Override
 	public float getLife() {
-		return 22;
+		return 25;
 	}
 	
 	@Override
 	public float getOuterLife() {
-		return 10;
+		return 120;
 	}
 	
 	public boolean isAngry() {

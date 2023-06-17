@@ -3,6 +3,7 @@ package com.hungteen.pvz.common.entity.plant.magic;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.common.entity.misc.drop.CoinEntity;
 import com.hungteen.pvz.common.entity.misc.drop.CoinEntity.CoinType;
+import com.hungteen.pvz.common.entity.misc.drop.SunEntity;
 import com.hungteen.pvz.common.entity.plant.base.PlantProducerEntity;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.entity.EntityRegister;
@@ -21,15 +22,15 @@ public class MariGoldEntity extends PlantProducerEntity {
 
 	@Override
 	public void genSomething() {
-		CoinEntity coin = EntityRegister.COIN.get().create(level);
-		coin.setAmount(this.getRandomAmount());
-		EntityUtil.onEntityRandomPosSpawn(level, coin, blockPosition(), 3);
+		SunEntity sun = EntityRegister.SUN.get().create(level);
+		sun.setAmount(this.getRandomAmount());
+		EntityUtil.onEntityRandomPosSpawn(level, sun, blockPosition(), 3);
 	}
 
-	protected void genSpecCoin(CoinType type) {
-		CoinEntity coin = EntityRegister.COIN.get().create(level);
-		coin.setAmountByType(type);
-		EntityUtil.onEntityRandomPosSpawn(level, coin, blockPosition(), 3);
+	protected void genSpecCoin(SunEntity.SunType type) {
+		SunEntity sun = EntityRegister.SUN.get().create(level);
+		sun.setAmountByType(type);
+		EntityUtil.onEntityRandomPosSpawn(level, sun, blockPosition(), 3);
 	}
 
 	@Override
@@ -37,29 +38,18 @@ public class MariGoldEntity extends PlantProducerEntity {
 		for (int i = 0; i < this.getSuperGenCnt(); ++i) {
 			this.genSomething();
 		}
-		this.genSpecCoin(CoinType.GOLD);
+		this.genSpecCoin(SunEntity.SunType.BIG);
 	}
 
 	private int getRandomAmount() {
 		final int num = this.getRandom().nextInt(100);
-		final int silverNum = this.getSilverChance();
-		final int goldNum = this.getGoldChance();
-		if (num < goldNum) {
-			return CoinType.GOLD.money;
+		if (num <= 50) {
+			return SunEntity.SunType.BIG.sun;
 		}
-		if (num < silverNum + goldNum) {
-			return CoinType.SILVER.money;
-		}
-		return CoinType.COPPER.money;
+		return SunEntity.SunType.MEDIUM.sun;
 	}
 	
-	public int getSilverChance() {
-		return 10;
-	}
 
-	public int getGoldChance() {
-		return 1;
-	}
 
 	public int getSuperGenCnt() {
 		return 5;
@@ -67,7 +57,7 @@ public class MariGoldEntity extends PlantProducerEntity {
 
 	@Override
 	public int getGenCD() {
-		return 1200;
+		return 480;
 	}
 	
 	@Override

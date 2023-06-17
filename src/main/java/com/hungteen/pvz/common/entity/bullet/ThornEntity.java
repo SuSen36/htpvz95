@@ -20,9 +20,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-import static java.lang.Math.*;
-import static net.minecraft.util.math.MathHelper.sign;
-
 public class ThornEntity extends AbstractBulletEntity {
 
 	private static final DataParameter<Integer> THORN_TYPE = EntityDataManager.defineId(ThornEntity.class,
@@ -92,16 +89,15 @@ public class ThornEntity extends AbstractBulletEntity {
 	 * {@link #tick()}
 	 */
 	public LivingEntity getRandomAttackTarget() {
-		final float range = 40F;
+		final float range = 30F;
 		List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, EntityUtil.getEntityAABB(this, range, range), entity -> {
 			return ! entity.is(thornTarget) && EntityUtil.canSeeEntity(this, entity) && EntityUtil.canTargetEntity(this.getOwnerOrSelf(), entity);
 		});
 		if (list.size() == 0) {
 			return null;
 		}
-		return list.get(this.random.nextInt(list.size()));
+		return list.get(0);
 	}
-
 	/**
 	 * {@link #tick()}
 	 */
@@ -125,7 +121,7 @@ public class ThornEntity extends AbstractBulletEntity {
 
 	public double getBulletSpeed() {
 		if (this.getThrower() instanceof CatTailEntity) {
-			return this.getThornType() == ThornTypes.AUTO ? 0.85D : 0.55D;
+			return this.getThornType() == ThornTypes.AUTO ? 0.65D : 0.55D;
 		}
 		return 0.15D;
 	}
@@ -147,12 +143,18 @@ public class ThornEntity extends AbstractBulletEntity {
 	private void onImpact(Entity target) {
 		if (this.shouldHit(target)) {
 			target.invulnerableTime = 0;
-			this.dealThornDamage(target); // attack
+			if(!(this.getThornType()==ThornTypes.AUTO)){
+			this.dealThornDamage(target);
+			}else if(this.tickCount % 40 == 0
+			) {
+				this.dealThornDamage(target);}// attack}
 			if (this.getThornType() == ThornTypes.GUIDE) {
-				this.setThornType(ThornTypes.NORMAL);
-				set.add(target.getId());
+				this.setThornType(ThornTypes.AUTO);
+
 			} else if (this.getThornType() == ThornTypes.AUTO) {
 				this.thornTarget = this.getRandomAttackTarget();
+				set.add(target.getId());
+				-- this.extraHitCount;
 			} else {
 				set.add(target.getId());
 				-- this.extraHitCount;
@@ -164,7 +166,7 @@ public class ThornEntity extends AbstractBulletEntity {
 		}
 	}
 
-	protected void dealThornDamage(Entity target) {
+	protected void dealThornDamage(Entity target){
 		target.hurt(PVZEntityDamageSource.causeThornDamage(this, this), this.getAttackDamage());
 	}
 	

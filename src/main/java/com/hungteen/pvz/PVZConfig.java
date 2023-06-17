@@ -209,8 +209,7 @@ public class PVZConfig {
                     WorldSettings.GigaTombStoneSpawnWeight = builder
                             .translation("config.pvz.world.giga_tomb_weight")
                             .comment("spawn weight of GigaTombStone at night in overworld.")
-                            .defineInRange("GigaTombStoneSpawnWeight", 5, 1, 200);
-
+                            .defineInRange("GigaTombStoneSpawnWeight", 15, 1, 200);//默认15
                     WorldSettings.YetiZombieSpawnWeight = builder
                             .translation("config.pvz.world.yeti_zombie_weight")
                             .comment("spawn weight of YetiZombie in overworld when thunder.")

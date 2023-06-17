@@ -117,12 +117,12 @@ public class CatTailEntity extends PlantShooterEntity {
 	
 	@Override
 	public float getAttackDamage() {
-		return this.getSkillValue(SkillTypes.MORE_THORN_DAMAGE);
+		return this.getSkillValue(SkillTypes.MORE_GUIDE_THORN_DAMAGE);
 	}
 	
 	public int getAnimCD() {
-		return 8;
-	}
+		return 16;
+	}//乘2
 	
 	@Override
 	public void startShootAttack() {

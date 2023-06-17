@@ -1,5 +1,6 @@
 package com.hungteen.pvz.common.entity.plant.arma;
 
+import com.hungteen.pvz.api.interfaces.IIceEffect;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.common.entity.bullet.ButterEntity;
 import com.hungteen.pvz.common.entity.bullet.KernelEntity;
@@ -20,8 +21,9 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 
-public class KernelPultEntity extends PlantPultEntity {
+public class KernelPultEntity extends PlantPultEntity implements IIceEffect {
 
 	private static final DataParameter<Integer> CURRENT_BULLET = EntityDataManager.defineId(KernelPultEntity.class, DataSerializers.INT);
 	private static final int BUTTER_CHANCE = 10;
@@ -134,7 +136,23 @@ public class KernelPultEntity extends PlantPultEntity {
 	public CornTypes getCurrentBullet() {
 		return CornTypes.values()[this.entityData.get(CURRENT_BULLET)];
 	}
-	
+
+	//冰冻
+	public int getColdDuration() {
+		return 60;
+	}//6秒
+
+	private static final int FROZEN_TICK = 60;//6秒
+
+	@Override
+	public Optional<EffectInstance> getColdEffect() {
+		return Optional.of(new EffectInstance(EffectRegister.COLD_EFFECT.get(), FROZEN_TICK + this.getColdDuration(), 2, false, false));
+	}
+
+	@Override
+	public Optional<EffectInstance> getFrozenEffect() {
+		return Optional.of(new EffectInstance(EffectRegister.FROZEN_EFFECT.get(), FROZEN_TICK, 1, false, false));
+	}
 	@Override
 	public IPlantType getPlantType() {
 		return PVZPlants.KERNEL_PULT;

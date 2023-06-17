@@ -9,14 +9,7 @@ import com.hungteen.pvz.common.item.ItemRegister;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.common.potion.EffectRegister;
 import com.hungteen.pvz.utils.EffectUtil;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -75,18 +68,21 @@ public class PeaEntity extends AbstractShootBulletEntity implements IRendersAsIt
 	public void heatBy(TorchWoodEntity wood) {
 		if (this.torchWood == null || !this.torchWood.is(wood)) {// don't fire twice by the same torchwood
 			this.torchWood = wood;
-			if (this.torchWood.getFlameType() == FlameTypes.BLUE) {// blue fire
-				if (this.getPeaState() == State.ICE) {//ice to fire
-					this.setPeaState(State.FIRE);
-				} else if (this.getPeaState().ordinal() < State.BLUE_FIRE.ordinal()) {// pea and fire to blue fire
-					this.setPeaState(State.BLUE_FIRE);
-				}
-			} else {// fire
-				if (this.getPeaState() == State.ICE) {//ice to normal 
-					this.setPeaState(State.NORMAL);
-				} else if (this.getPeaState() == State.NORMAL) {//normal to fire
-					this.setPeaState(State.FIRE);
-				}
+			if(this.torchWood.getFlameType() == FlameTypes.YELLOW){// fire
+				if (this.getPeaState() == State.NORMAL) {//普通到冰
+					this.setPeaState(State.ICE);
+				} else if (this.getPeaState() == State.ICE) {//冰到蓝火
+					this.setPeaState(State.BLUE_FIRE
+					);}
+			}else if (this.torchWood.getFlameType() == FlameTypes.BLUE) {// blue fire
+				if (this.getPeaState() == State.NORMAL) {//普通到冰
+					this.setPeaState(State.ICE);
+				}else if (this.getPeaState() == State.ICE) {//冰到蓝火
+					this.setPeaState(State.BLUE_FIRE
+					);}
+				else if (this.getPeaState() == State.FIRE) {//火到蓝火
+					this.setPeaState(State.BLUE_FIRE
+					);}
 			}
 		}
 	}
@@ -101,12 +97,22 @@ public class PeaEntity extends AbstractShootBulletEntity implements IRendersAsIt
 			if (owner instanceof IIceEffect) {
 				((IIceEffect) owner).getColdEffect().ifPresent(e -> source.addEffect(e));
 				((IIceEffect) owner).getFrozenEffect().ifPresent(e -> source.addEffect(e));
-			} else if(owner instanceof PlayerEntity) {
+			} else {
 				source.addEffect(EffectUtil.effect(EffectRegister.COLD_EFFECT.get(), 100, 5));
 			}
 			target.hurt(source, damage);
-		} else if (this.getPeaState() == State.FIRE || this.getPeaState() == State.BLUE_FIRE) {
+		} else if (this.getPeaState() == State.FIRE ) {
 			target.hurt(PVZEntityDamageSource.flamePea(this, this.getThrower()), damage);
+		}else if(this.getPeaState() == State.BLUE_FIRE ) {
+			PVZEntityDamageSource source = PVZEntityDamageSource.blueFlamePea(this, this.getThrower());
+			LivingEntity owner = this.getThrower();
+			if (owner instanceof IIceEffect) {
+				((IIceEffect) owner).getColdEffect().ifPresent(e -> source.addEffect(e));
+				((IIceEffect) owner).getFrozenEffect().ifPresent(e -> source.addEffect(e));
+			} else {
+				source.addEffect(EffectUtil.effect(EffectRegister.COLD_EFFECT.get(), 100, 5));
+			}
+			target.hurt(source, damage);
 		}
 	}
 	
@@ -124,7 +130,7 @@ public class PeaEntity extends AbstractShootBulletEntity implements IRendersAsIt
 		if (this.getPeaState() == State.FIRE) {
 			damage *= 1.5F;
 		} else if (this.getPeaState() == State.BLUE_FIRE) {
-			damage *= 1.75F;
+			damage *= 2F;
 		}
 		return damage;
 	}
@@ -193,9 +199,9 @@ public class PeaEntity extends AbstractShootBulletEntity implements IRendersAsIt
 		if (this.getPeaState() == State.FIRE) {
 			return new ItemStack(ItemRegister.FLAME_PEA.get());
 		}
-//		if(this.getPeaState() == State.BLUE_FIRE) {
-//			return new ItemStack(ItemRegister.BLUE_FLAME_PEA.get());
-//		}
+		if(this.getPeaState() == State.BLUE_FIRE) {
+		return new ItemStack(ItemRegister.FLAME_PEA.get());
+		}
 		return new ItemStack(ItemRegister.PEA.get());
 	}
 	
@@ -210,8 +216,8 @@ public class PeaEntity extends AbstractShootBulletEntity implements IRendersAsIt
 	}
 
 	public enum State {
-		ICE,
 		NORMAL,
+		ICE,
 		FIRE,
 		BLUE_FIRE,
 		ELECTRICITY,

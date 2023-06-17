@@ -3,6 +3,8 @@ package com.hungteen.pvz.common.entity.bullet;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.common.entity.EntityRegister;
 
+import com.hungteen.pvz.utils.EntityUtil;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
@@ -13,10 +15,14 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import java.util.List;
 
 public class StarEntity extends AbstractBulletEntity {
 
@@ -24,17 +30,17 @@ public class StarEntity extends AbstractBulletEntity {
 			DataSerializers.INT);
 	private static final DataParameter<Integer> STAR_STATE = EntityDataManager.defineId(StarEntity.class,
 			DataSerializers.INT);
-	
+
 	public StarEntity(EntityType<?> type, World worldIn) {
 		super(type, worldIn);
 	}
-	
+
 	public StarEntity(World worldIn, LivingEntity livingEntityIn, StarTypes starType, StarStates starState) {
 		super(EntityRegister.STAR.get(), worldIn, livingEntityIn);
 		this.setStarType(starType);
 		this.setStarState(starState);
 	}
-	
+
 	@Override
 	protected void defineSynchedData() {
 		super.defineSynchedData();
@@ -49,7 +55,7 @@ public class StarEntity extends AbstractBulletEntity {
 			Entity target = ((EntityRayTraceResult) result).getEntity();
 			if (this.shouldHit(target)) {
 				target.invulnerableTime = 0;
-				this.dealStarDamage(target); // attack 
+				this.dealStarDamage(target); // attack
 				flag = true;
 			}
 		}
@@ -58,16 +64,16 @@ public class StarEntity extends AbstractBulletEntity {
 			this.remove();
 		}
 	}
-	
+
 	private void dealStarDamage(Entity target) {
 		target.hurt(PVZEntityDamageSource.star(this, this.getThrower()), this.getAttackDamage());
 	}
-	
+
 	@Override
 	protected int getMaxLiveTick() {
-		return 30;
+		return 40;
 	}
-	
+
 	public float getAttackDamage() {
 		float damage = this.attackDamage;
 		if(this.getStarType() == StarTypes.BIG) {
@@ -78,7 +84,7 @@ public class StarEntity extends AbstractBulletEntity {
 		}
 		return damage;
 	}
-	
+
 	@Override
 	public EntitySize getDimensions(Pose poseIn) {
 		if(this.getStarType() == StarTypes.BIG) {
@@ -94,7 +100,7 @@ public class StarEntity extends AbstractBulletEntity {
 	protected float getGravityVelocity() {
 		return 0f;
 	}
-	
+
 	/**
 	 * Updates the entity motion clientside, called by packets from the server
 	 */
@@ -102,31 +108,31 @@ public class StarEntity extends AbstractBulletEntity {
 	public void lerpMotion(double x, double y, double z) {
 		this.setDeltaMovement(x, y, z);
 		if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-		    this.yRot += 10;
-		    this.yRotO = this.yRot;
-		    this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
+			this.yRot += 10;
+			this.yRotO = this.yRot;
+			this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
 		}
-	}	
-	
+	}
+
 	@Override
 	public void readAdditionalSaveData(CompoundNBT compound) {
 		super.readAdditionalSaveData(compound);
 		if(compound.contains("star_state")) {
-		    this.setStarState(StarStates.values()[compound.getInt("star_state")]);
+			this.setStarState(StarStates.values()[compound.getInt("star_state")]);
 		}
 		if(compound.contains("star_type")) {
 			this.setStarType(StarTypes.values()[compound.getInt("star_type")]);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void addAdditionalSaveData(CompoundNBT compound) {
 		super.addAdditionalSaveData(compound);
 		compound.putInt("star_state", this.getStarState().ordinal());
 		compound.putInt("star_type", this.getStarType().ordinal());
 	}
-	
+
 	public StarStates getStarState() {
 		return StarStates.values()[entityData.get(STAR_STATE)];
 	}
@@ -142,7 +148,7 @@ public class StarEntity extends AbstractBulletEntity {
 	public void setStarType(StarTypes type) {
 		entityData.set(STAR_TYPE, type.ordinal());
 	}
-	
+
 	public enum StarStates {
 		YELLOW, PINK
 	}

@@ -8,9 +8,8 @@ import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.impl.zombie.RoofZombies;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.common.item.ItemRegister;
-import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
-import com.hungteen.pvz.common.misc.tag.PVZEntityTypeTags;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
+import com.hungteen.pvz.common.misc.tag.PVZEntityTypeTags;
 import com.hungteen.pvz.utils.ConfigUtil;
 import com.hungteen.pvz.utils.EntityUtil;
 import com.hungteen.pvz.utils.ZombieUtil;
@@ -132,14 +131,9 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			} else {
 				this.moveToTarget();
 			}
-		} else if(this.getBungeeState() == BungeeStates.CATCH) {// wait some time to catch
+		} else if(this.getBungeeState() == BungeeStates.CATCH) {// 不再等待
 			this.setDeltaMovement(Vector3d.ZERO);
-			if(this.getAttackTime() > 0) {
-				this.setAttackTime(this.getAttackTime() - 1);
-			}
-			if(this.getAttackTime() == 0) {
 				this.setBungeeState(BungeeStates.UP);
-			}
 		} else if(this.getBungeeState() == BungeeStates.UP) {
 			this.setAttackTime(this.getAttackTime() - 1);
 			this.moveBackToOrigin();

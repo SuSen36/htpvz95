@@ -58,7 +58,7 @@ public class TorchWoodEntity extends PVZPlantEntity {
 	public void heatPeas() {
 		final float range = this.getHeatRange();
 		level.getEntitiesOfClass(PeaEntity.class, EntityUtil.getEntityAABB(this, range, range)).forEach(pea -> {
-			pea.heatBy(this);
+			pea.heatBy(this);//完成
 		});
 	}
 	

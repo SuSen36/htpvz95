@@ -30,10 +30,10 @@ public class FootballZombieEntity extends PVZZombieEntity implements IHasMetal {
 	public float getWalkSpeed() {
 		return ZombieUtil.WALK_FAST;
 	}
-
+    //血量+175
 	@Override
 	public float getLife() {
-		return 20;
+		return 195;
 	}
 	
 	@Override

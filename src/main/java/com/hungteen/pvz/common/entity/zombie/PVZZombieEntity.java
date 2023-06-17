@@ -21,6 +21,7 @@ import com.hungteen.pvz.common.entity.misc.drop.CoinEntity.CoinType;
 import com.hungteen.pvz.common.entity.misc.drop.SunEntity;
 import com.hungteen.pvz.common.entity.plant.PVZPlantEntity;
 import com.hungteen.pvz.common.entity.plant.enforce.SquashEntity;
+import com.hungteen.pvz.common.entity.plant.magic.HypnoShroomEntity;
 import com.hungteen.pvz.common.entity.plant.spear.SpikeWeedEntity;
 import com.hungteen.pvz.common.entity.zombie.body.ZombieDropBodyEntity;
 import com.hungteen.pvz.common.impl.SkillTypes;
@@ -323,6 +324,7 @@ public abstract class PVZZombieEntity extends AbstractPAZEntity implements IZomb
 	 * zombie perform attack CD.
 	 * use for attack goals.
 	 */
+	//增加攻击速度
 	public int getAttackCD() {
 		if (!this.canNormalUpdate()) {//can not update means stop attack.
 			return 10000000;
@@ -331,6 +333,9 @@ public abstract class PVZZombieEntity extends AbstractPAZEntity implements IZomb
 		if (this.hasEffect(EffectRegister.COLD_EFFECT.get())) {//cold will decrease attack CD.
 			int lvl = this.getEffect(EffectRegister.COLD_EFFECT.get()).getAmplifier();
 			cd += 3 * lvl;
+		}else if (this.hasEffect(Effects.DIG_SPEED)) {//cold will decrease attack CD.
+			int lvl = this.getEffect(Effects.DIG_SPEED).getAmplifier();
+			cd -= 2 * lvl;
 		}
 		return cd;
 	}
@@ -754,19 +759,22 @@ public abstract class PVZZombieEntity extends AbstractPAZEntity implements IZomb
 		}
 		this.addEffect(effect);
 	}
-
+//血量加200
 	@Override
 	public void onCharmedBy(LivingEntity entity) {
 		super.onCharmedBy(entity);
 		if(this.canBeCharmed()) {
 			this.setCharmed(!this.isCharmed());
+			if(this.isCharmed()){
+				EntityUtil.setLivingMaxHealthAndHeal(this,this.getMaxHealth() + HypnoShroomEntity.getSummonHealth());
+			}
 			if (this.getVariantType() == VariantType.SUPER) {
 				this.setZombieType(VariantType.NORMAL);
 				this.dropEnergy();
 			}
 		}
 	}
-	
+
 //	public void healZombie(float health) {
 //		final float need1 = this.getMaxHealth() - this.getHealth();
 //		this.heal(Math.min(need1, health));

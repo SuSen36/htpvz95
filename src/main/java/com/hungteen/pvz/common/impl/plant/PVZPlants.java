@@ -9,7 +9,6 @@ import com.hungteen.pvz.client.model.entity.plant.arma.KernelPultModel;
 import com.hungteen.pvz.client.model.entity.plant.arma.MelonPultModel;
 import com.hungteen.pvz.client.model.entity.plant.assist.*;
 import com.hungteen.pvz.client.model.entity.plant.defence.GarlicModel;
-import com.hungteen.pvz.client.model.entity.plant.defence.PumpkinModel;
 import com.hungteen.pvz.client.model.entity.plant.defence.TallNutModel;
 import com.hungteen.pvz.client.model.entity.plant.defence.WallNutModel;
 import com.hungteen.pvz.client.model.entity.plant.enforce.ChomperModel;
@@ -96,9 +95,9 @@ public final class PVZPlants extends PlantType {
 			.plantModel(() -> WallNutModel::new).scale(1F)
 			.cdSkill(Arrays.asList(SkillTypes.NUT_MORE_LIFE))
 	);
-	
+	//阳光改为50
 	public static final IPlantType POTATO_MINE = new PVZPlants("potato_mine", new PlantFeatures()
-			.cost(25).requiredLevel(1)
+			.cost(50).requiredLevel(1)
 			.cd(CoolDowns.LITTLE_SLOW).rank(RankTypes.WHITE).essence(EssenceTypes.EXPLOSION)
 			.entityType(() -> EntityRegister.POTATO_MINE.get())
 			.summonCard(() -> ItemRegister.POTATO_MINE_CARD.get())
@@ -173,9 +172,9 @@ public final class PVZPlants extends PlantType {
 			.upgradeTo(() -> PVZPlants.GLOOM_SHROOM)
 			.commonSkill(Arrays.asList(SkillTypes.SPORE_DAMAGE))
 	);
-	
+	//费用为50
 	public static final IPlantType GRAVE_BUSTER = new PVZPlants("grave_buster", new PlantFeatures()
-			.cost(75).requiredLevel(7)
+			.cost(50).requiredLevel(7)
 			.cd(CoolDowns.SUPER_FAST).rank(RankTypes.WHITE).essence(EssenceTypes.ASSIST)
 			.entityType(() -> EntityRegister.GRAVE_BUSTER.get())
 			.summonCard(() -> ItemRegister.GRAVE_BUSTER_CARD.get())
@@ -183,9 +182,9 @@ public final class PVZPlants extends PlantType {
 			.plantModel(() -> GraveBusterModel::new).scale(1F)
 			.commonSkill(Arrays.asList())
 	);
-	
+	//阳光改为100
 	public static final IPlantType HYPNO_SHROOM = new PVZPlants("hypno_shroom", new PlantFeatures().isShroomPlant()
-			.cost(75).requiredLevel(32)
+			.cost(100).requiredLevel(32)
 			.cd(CoolDowns.LITTLE_SLOW).rank(RankTypes.GOLD).essence(EssenceTypes.MAGIC)
 			.entityType(() -> EntityRegister.HYPNO_SHROOM.get())
 			.summonCard(() -> ItemRegister.HYPNO_SHROOM_CARD.get())
@@ -300,10 +299,10 @@ public final class PVZPlants extends PlantType {
 			.plantModel(() -> TorchWoodModel::new).scale(1F)
 			.cdSkill(Arrays.asList(SkillTypes.WOOD_MORE_LIFE, SkillTypes.HEAT_PEA_RANGE, SkillTypes.LESS_SUN))
 	);
-	
+	//阳光改为175,冷却变快
 	public static final IPlantType TALL_NUT = new PVZPlants("tall_nut", new PlantFeatures()
-			.cost(125).requiredLevel(25)
-			.cd(CoolDowns.VERY_SLOW).rank(RankTypes.BLUE).essence(EssenceTypes.DEFENCE)
+			.cost(175).requiredLevel(25)
+			.cd(CoolDowns.LITTLE_SLOW).rank(RankTypes.BLUE).essence(EssenceTypes.DEFENCE)
 			.entityType(() -> EntityRegister.TALL_NUT.get())
 			.summonCard(() -> ItemRegister.TALL_NUT_CARD.get())
 			.enjoyCard(() -> ItemRegister.TALL_NUT_ENJOY_CARD.get())
@@ -333,7 +332,7 @@ public final class PVZPlants extends PlantType {
 			.plantModel(() -> PlanternModel::new).scale(1F)
 			.commonSkill(Arrays.asList(SkillTypes.MORE_LIGHT_RANGE, SkillTypes.NIGHT_VISION))
 	);
-	
+	//阳光改为200
 	public static final IPlantType CACTUS = new PVZPlants("cactus", new PlantFeatures()
 			.cost(125).requiredLevel(8)
 			.cd(CoolDowns.HUGE_FAST).rank(RankTypes.GREEN).essence(EssenceTypes.SPEAR)
@@ -344,9 +343,9 @@ public final class PVZPlants extends PlantType {
 			.placement(Placements.SAND)
 			.commonSkill(Arrays.asList(SkillTypes.MORE_THORN_DAMAGE))
 	);
-	
+	//阳光+100
 	public static final IPlantType BLOVER = new PVZPlants("blover", new PlantFeatures()
-			.cost(50).requiredLevel(19)
+			.cost(150).requiredLevel(19)
 			.cd(CoolDowns.FAST).rank(RankTypes.GREEN).essence(EssenceTypes.ASSIST)
 			.entityType(() -> EntityRegister.BLOVER.get())
 			.summonCard(() -> ItemRegister.BLOVER_CARD.get())
@@ -364,9 +363,9 @@ public final class PVZPlants extends PlantType {
 			.plantModel(() -> SplitPeaModel::new).scale(1F)
 			.commonSkill(Arrays.asList(SkillTypes.PEA_DAMAGE, SkillTypes.SPLIT_DOUBLE_CHANCE))
 	);
-	
+	//阳光改为250
 	public static final IPlantType STAR_FRUIT = new PVZPlants("star_fruit", new PlantFeatures()
-			.cost(150).requiredLevel(31)
+			.cost(250).requiredLevel(31)
 			.cd(CoolDowns.FAST).rank(RankTypes.GREEN).essence(EssenceTypes.APPEASE)
 			.entityType(() -> EntityRegister.STAR_FRUIT.get())
 			.summonCard(() -> ItemRegister.STAR_FRUIT_CARD.get())
@@ -421,9 +420,9 @@ public final class PVZPlants extends PlantType {
 			.placement(Placements.ANY)
 			.cdSkill(Arrays.asList())
 	);
-	
+	//阳光改为100
 	public static final IPlantType KERNEL_PULT = new PVZPlants("kernel_pult", new PlantFeatures()
-			.cost(125).requiredLevel(18)
+			.cost(100).requiredLevel(18)
 			.cd(CoolDowns.FAST).rank(RankTypes.GOLD).essence(EssenceTypes.ARMA)
 			.entityType(() -> EntityRegister.KERNEL_PULT.get())
 			.summonCard(() -> ItemRegister.KERNEL_PULT_CARD.get())
@@ -483,10 +482,8 @@ public final class PVZPlants extends PlantType {
 			.upgradeTo(() -> PVZPlants.WINTER_MELON)
 			.commonSunSkill(Arrays.asList(SkillTypes.MORE_MELON_DAMAGE))
 	);
-	
-	/*
-	 * upgrade
-	 */
+
+	//阳光为450
 	public static final IPlantType GATLING_PEA = new PVZPlants("gatling_pea", new PlantFeatures()
 			.cost(450).requiredLevel(28)
 			.cd(CoolDowns.VERY_SLOW).rank(RankTypes.PURPLE).essence(EssenceTypes.APPEASE)
@@ -519,9 +516,9 @@ public final class PVZPlants extends PlantType {
 			.upgradeFrom(() -> PVZPlants.FUME_SHROOM)
 			.commonSunSkill(Arrays.asList(SkillTypes.SPORE_DAMAGE))
 	);
-	
+	//费用+50
 	public static final IPlantType CAT_TAIL = new PVZPlants("cat_tail", new PlantFeatures().isWaterPlant()
-			.cost(350).requiredLevel(52)
+			.cost(400).requiredLevel(52)
 			.cd(CoolDowns.VERY_SLOW).rank(RankTypes.BLACK).essence(EssenceTypes.SPEAR)
 			.placement(Placements.LILY_PAD)
 			.entityType(() -> EntityRegister.CAT_TAIL.get())

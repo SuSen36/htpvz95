@@ -56,10 +56,11 @@ public class FumeShroomEntity extends PlantShooterEntity {
 	public EntitySize getDimensions(Pose poseIn) {
 		return EntitySize.scalable(0.8f, 1.25f);
 	}
-	
+
+	//射程乘2
     @Override
 	public float getShootRange() {
-		return 15;
+		return 30;
 	}
 
     @Override

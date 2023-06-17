@@ -37,7 +37,7 @@ public class InvasionManager {
     private static final ITextComponent END = new TranslationTextComponent("invasion.pvz.end")
             .withStyle(TextFormatting.GREEN);
     public static final ITextComponent HUGE_WAVE = new TranslationTextComponent("invasion.pvz.huge_wave").withStyle(TextFormatting.DARK_RED);
-    public static final int[] SPAWN_COUNT_EACH_WAVE = new int[] {10, 12, 16, 20, 24, 30, 36, 42, 44, 46};
+    public static final int[] SPAWN_COUNT_EACH_WAVE = new int[] {18, 20, 25, 28, 34, 40, 45, 47, 50, 66};//增加生成数量
     public static final int PRE_START_TICK = 499;
     public static final int START_TICK = 500;
     public static final int PRE_END_TICK = 99;
@@ -203,11 +203,10 @@ public class InvasionManager {
     private static long getSafeDayDif(World world) {
         return world.getGameTime() - getSafeDayLength(world) * 24000;
     }
-
+//安全日缩短
     public static int getSafeDayLength(World world) {
         final Difficulty difficulty = world.getDifficulty();
-        final int multiple = difficulty == Difficulty.HARD ? 0
-                : difficulty == Difficulty.NORMAL ? 1 : difficulty == Difficulty.EASY ? 2 : 3;
+        final int multiple = difficulty == Difficulty.HARD ? 1 : difficulty == Difficulty.NORMAL ? 1 : 3;
         return PVZConfig.COMMON_CONFIG.InvasionSettings.SafeDayLength.get() * multiple;
     }
 

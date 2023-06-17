@@ -1,5 +1,6 @@
 package com.hungteen.pvz.common.entity.bullet;
 
+import com.hungteen.pvz.common.entity.plant.arma.KernelPultEntity;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.common.entity.EntityRegister;
 
