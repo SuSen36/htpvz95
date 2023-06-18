@@ -13,7 +13,10 @@ public class SpikeRockEntity extends SpikeWeedEntity {
 		super(type, worldIn);
 		this.setSpikeNum(this.getSpikesCount());
 	}
-	
+	@Override
+	public float getLife() {
+		return 800;
+	}
 	public int getSpikesCount() {
 		return (int) this.getSkillValue(SkillTypes.MORE_SPIKE);
 	}

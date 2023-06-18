@@ -50,18 +50,14 @@ public class JalapenoEntity extends PlantBomberEntity implements IIceEffect {
 	 */
 	public void fireMob(LivingEntity entity, float dx, float dz) {
 		final AxisAlignedBB aabb = new AxisAlignedBB(entity.position().add(dx, 1, dz), entity.position().add(- dx, - 1, - dz));
-		for(Entity target : EntityUtil.getWholeTargetableEntities(entity, aabb)) {
+		for(LivingEntity target : EntityUtil.getTargetableLivings(this, aabb)) {
 			float damage = this.getAttackDamage();
 			if(entity instanceof JalapenoEntity) {
 				if(EntityUtil.getCurrentHealth((LivingEntity) target) <= damage){
 				damage = ((JalapenoEntity) entity).getExplodeDamage();
 				}else {
-					//冰冻
 					target.hurt(PVZEntityDamageSource.explode(this), damage);
-					((LivingEntity) target).addEffect(this.getFrozenEffect().get());
-					((LivingEntity) target).addEffect(this.getColdEffect().get());
-
-				}
+					}
 			} else if(entity instanceof JalapenoZombieEntity) {
 				if(target instanceof LivingEntity) {
 					damage = EntityUtil.getMaxHealthDamage((LivingEntity) target, 2);
@@ -69,7 +65,10 @@ public class JalapenoEntity extends PlantBomberEntity implements IIceEffect {
 					damage = 100F;
 				}
 			}
-			target.hurt(PVZEntityDamageSource.causeFlameDamage(entity, entity).setExplosion(), damage);
+			   target.hurt(PVZEntityDamageSource.causeFlameDamage(entity, entity).setExplosion(), damage);
+
+			   target.addEffect(this.getFrozenEffect().get());//冰冻
+			   target.addEffect(this.getColdEffect().get());
 		}
 		PVZPlantEntity.clearLadders(entity, aabb);
 	}
@@ -129,7 +128,7 @@ public class JalapenoEntity extends PlantBomberEntity implements IIceEffect {
 
 	@Override
 	public float getExplodeDamage() {
-		return this.getSkillValue(SkillTypes.NORMAL_BOMB_DAMAGE);
+		return this.getSkillValue(SkillTypes.NORMAL_BOMB_DAMAGE)*2/3;//伤害乘2/3
 	}
 
 	@Override
@@ -149,7 +148,7 @@ public class JalapenoEntity extends PlantBomberEntity implements IIceEffect {
 		return 120;
 	}//6秒
 
-	private static final int FROZEN_TICK = 5;
+	private static final int FROZEN_TICK = 100;
 
 	@Override
 	public Optional<EffectInstance> getColdEffect() {

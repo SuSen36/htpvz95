@@ -35,7 +35,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 	protected EntityType<?> entityType;
 	private BlockPos stealPos;
 	private LivingEntity stealTarget;
-	
+
 	public BungeeZombieEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.canBeMini = false;
@@ -43,7 +43,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		this.setImmuneAllEffects();
 		this.setIsWholeBody();
 	}
-	
+
 	@Override
 	protected void defineSynchedData() {
 		super.defineSynchedData();
@@ -57,23 +57,23 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		super.finalizeSpawn(tag);
 		this.setOriginPos(blockPosition());
 	}
-	
+
 	@Override
 	public void tick() {
 		this.noPhysics = true;
 		super.tick();
 	}
-	
+
 	@Override
 	protected void registerGoals() {
 		this.registerTargetGoals();
 	}
-	
+
 	@Override
 	protected void registerTargetGoals() {
 		this.targetSelector.addGoal(0, new BungeeRandomTargetGoal(this, true, true, ZombieUtil.CLOSE_TARGET_RANGE, ZombieUtil.HIGH_TARGET_HEIGHT));
 	}
-	
+
 	@Override
 	public void normalZombieTick() {
 		super.normalZombieTick();
@@ -104,7 +104,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			}
 		}
 	}
-	
+
 	/**
 	 * help type tick.
 	 * {@link #normalZombieTick()}
@@ -131,9 +131,14 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			} else {
 				this.moveToTarget();
 			}
-		} else if(this.getBungeeState() == BungeeStates.CATCH) {// 不再等待
+		} else if(this.getBungeeState() == BungeeStates.CATCH) {// wait some time to catch
 			this.setDeltaMovement(Vector3d.ZERO);
+			if(this.getAttackTime() > 0) {
+				this.setAttackTime(this.getAttackTime() - 1);
+			}
+			if(this.getAttackTime() == 0) {
 				this.setBungeeState(BungeeStates.UP);
+			}
 		} else if(this.getBungeeState() == BungeeStates.UP) {
 			this.setAttackTime(this.getAttackTime() - 1);
 			this.moveBackToOrigin();
@@ -143,7 +148,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			}
 		}
 	}
-	
+
 	/**
 	 * steal type tick.
 	 * {@link #normalZombieTick()}
@@ -182,26 +187,24 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			} else {
 				this.moveToTarget();
 			}
-		} else if(this.getBungeeState() == BungeeStates.CATCH) {// wait some time to catch
+		} else if(this.getBungeeState() == BungeeStates.CATCH) {//秒偷
 			this.setDeltaMovement(Vector3d.ZERO);
-			if(this.getAttackTime() > 0) {
-				this.setAttackTime(this.getAttackTime() - 1);
-			}
+
 			this.getStealTarget().startRiding(this);
-			if(this.getAttackTime() == 0) {
-				this.setBungeeState(BungeeStates.UP);
-			}
+
+			this.setBungeeState(BungeeStates.UP);
 		} else if(this.getBungeeState() == BungeeStates.UP) {
 			this.setAttackTime(this.getAttackTime() - 1);
 			this.moveBackToOrigin();
 			this.getStealTarget().startRiding(this);
-			if(this.getAttackTime() < - 100) {
+			/*秒偷*/
+			if(this.getAttackTime() < - 25) {
 				this.dealDamageAndRemove();
 				return ;
 			}
 		}
 	}
-	
+
 	/**
 	 * summon type tick.
 	 * {@link #normalZombieTick()}
@@ -246,17 +249,17 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			this.setStealTarget(null);
 		}
 	}
-	
+
 	@Override
 	public boolean canPAZTarget(Entity target) {
 		return canBungeeSteal(target);
 	}
-	
+
 	@Override
 	public boolean canBeTargetBy(LivingEntity living) {
 		return super.canBeTargetBy(living) && this.getBungeeState() == BungeeStates.CATCH;
 	}
-	
+
 	@Override
 	protected boolean isZombieInvulnerableTo(DamageSource source) {
 		return super.isZombieInvulnerableTo(source) || this.getBungeeState() != BungeeStates.CATCH;
@@ -265,7 +268,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 	public void setSummonType(EntityType<?> entityType){
 		this.entityType = entityType;
 	}
-	
+
 	/**
 	 * summon zombies.
 	 * {@link #tickSummon()}
@@ -281,29 +284,29 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			this.setStealTarget((LivingEntity) entity);
 		}
 	}
-	
+
 	@Override
 	public double getPassengersRidingOffset() {
 		return 0;
 	}
-	
+
 	private void dealDamageAndRemove() {
 //		this.getStealTarget().hurt(PVZEntityDamageSource.causeDeadlyDamage(this, this), EntityUtil.getMaxHealthDamage(this.getStealTarget()));//removed by GrassCarp.
 		this.remove();
 	}
-	
+
 	/**
 	 * CD when catching.
 	 */
 	public int getStayTime() {
 		return 80;
 	}
-	
+
 	@Override
 	public boolean canBeAttractedBy(ICanAttract defender) {
 		return false;
 	}
-	
+
 	/**
 	 * move to catch target. 
 	 */
@@ -315,7 +318,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		final double speed = 0.55D;
 		this.setDeltaMovement(vec.multiply(speed, speed, speed));
 	}
-	
+
 	/**
 	 * move back to origin blockpos.
 	 */
@@ -324,14 +327,14 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		final double speed = 0.4D;
 		this.setDeltaMovement(vec.multiply(speed, speed, speed));
 	}
-	
+
 	/**
 	 * {@link #tickSteal()}
 	 */
 	private boolean isNearToTarget() {
 		return EntityUtil.isEntityValid(this.getStealTarget()) && this.distanceToSqr(this.getStealTarget()) <= 2;
 	}
-	
+
 	/**
 	 * {@link #tickSteal()}
 	 */
@@ -352,12 +355,12 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			return false;
 		}
 		if(target instanceof AbstractPAZEntity) {
-			
+
 			return ((AbstractPAZEntity) target).canBeStealByBungee();
 		}
 		return EntityUtil.getCurrentMaxHealth((LivingEntity) target) <= ConfigUtil.getLimitDamage();
 	}
-	
+
 	/**
 	 * is chosen target still suitable.
 	 */
@@ -371,41 +374,41 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		}
 		return true;
 	}
-	
+
 	/**
 	 * {@link #canBungeeSteal(Entity)}
 	 * {@link #isSuitableTarget(LivingEntity)}
 	 */
 	private static boolean isHoldingZombieDoll(LivingEntity target) {
-		return target.getMainHandItem().getItem().equals(ItemRegister.ZOMBIE_DOLL.get()) 
-					|| target.getOffhandItem().getItem().equals(ItemRegister.ZOMBIE_DOLL.get());
+		return target.getMainHandItem().getItem().equals(ItemRegister.ZOMBIE_DOLL.get())
+				|| target.getOffhandItem().getItem().equals(ItemRegister.ZOMBIE_DOLL.get());
 	}
-	
+
 	@Override
 	public float getLife() {
 		return 45;
 	}
-	
+
 	@Override
 	public EntitySize getDimensions(Pose poseIn) {
 		return EntitySize.scalable(1.2F, 2F);
 	}
 
 	@Override
-    public ZombieType getZombieType() {
-	    return RoofZombies.BUNGEE_ZOMBIE;
-    }
-	
+	public ZombieType getZombieType() {
+		return RoofZombies.BUNGEE_ZOMBIE;
+	}
+
 	@Override
 	public boolean rideableUnderWater() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isNoGravity() {
 		return true;
 	}
-	
+
 	@Override
 	public void readAdditionalSaveData(CompoundNBT compound) {
 		super.readAdditionalSaveData(compound);
@@ -430,7 +433,7 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			this.setOriginPos(new BlockPos(nbt.getInt("origin_pos_x"), nbt.getInt("origin_pos_y"), nbt.getInt("origin_pos_z")));
 		}
 	}
-	
+
 	@Override
 	public void addAdditionalSaveData(CompoundNBT compound) {
 		super.addAdditionalSaveData(compound);
@@ -457,39 +460,39 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 			compound.put("origin_pos", nbt);
 		}
 	}
-	
+
 	public void setBungeeState(BungeeStates state) {
 		this.entityData.set(BUNGEE_STATE, state.ordinal());
 	}
-	
+
 	public void setBungeeType(BungeeTypes type) {
 		this.entityData.set(BUNGEE_TYPE, type.ordinal());
 	}
-	
+
 	public BungeeStates getBungeeState() {
 		return BungeeStates.values()[this.entityData.get(BUNGEE_STATE)];
 	}
-	
+
 	public BungeeTypes getBungeeType() {
 		return BungeeTypes.values()[this.entityData.get(BUNGEE_TYPE)];
 	}
-	
+
 	public BlockPos getOriginPos() {
 		return this.entityData.get(ORIGIN_POS);
 	}
-	
+
 	public void setOriginPos(BlockPos pos) {
 		this.entityData.set(ORIGIN_POS, pos);
 	}
-	
+
 	public LivingEntity getStealTarget() {
 		return this.stealTarget;
 	}
-	
+
 	public void setStealTarget(LivingEntity target) {
 		this.stealTarget = target;
 	}
-	
+
 	public enum BungeeStates {
 		WAIT,
 		BACK_WAIT,
@@ -498,27 +501,27 @@ public class BungeeZombieEntity extends PVZZombieEntity implements ICanPushBack 
 		UP,
 		PUSH_BACK,
 	}
-	
+
 	public static enum BungeeTypes {
 		STEAL,//wait, shoot, down, up
 		HELP,//down, up
 		SUMMON//down, up
 	}
-	
+
 	static class BungeeRandomTargetGoal extends PVZRandomTargetGoal {
 
 		private final BungeeZombieEntity zombie;
-		
+
 		public BungeeRandomTargetGoal(BungeeZombieEntity mobIn, boolean checkSight, boolean mustReach, float w, float h) {
 			super(mobIn, checkSight, mustReach, w, h);
 			this.zombie = mobIn;
 		}
-		
+
 		@Override
 		public boolean canContinueToUse() {
 			return this.zombie.isSuitableTarget(this.zombie.getTarget());
 		}
-		
+
 	}
 
 }

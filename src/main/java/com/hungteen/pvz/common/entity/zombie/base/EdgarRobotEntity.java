@@ -102,6 +102,8 @@ public abstract class EdgarRobotEntity extends AbstractBossZombieEntity {
     public EdgarRobotEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
         super(type, worldIn);
         this.setIsWholeBody();
+        this.canBeFrozen = true;
+        this.canBeCold = true;
         this.shootBallTick = this.getShootBallCD();
         this.stealPlantTick = this.getStealPlantCD();
         this.throwCarTick = this.getThrowCarCD();

@@ -6,12 +6,12 @@ issueTrackerURL="https://github.com/HungTeen/pvzmod/issues"
 [[mods]]
 modId="pvz"
 version="0.6.4"
-displayName="Plants vs Zombies"
+displayName="Plants vs Zombies 95V"
 authors="SuSen13,_HungTeen_, Wolf__Crystal, Grass_Carp"
 logoFile="logo.png" 
 displayURL="https://space.bilibili.com/362855464" 
 credits="Men_Tian_Bai, InkyTheSheep, Chompy, XXTT, 136(some of challenges), True Bebra(Russian translation) and so on."
-description="A mod that brings Plants vs Zombies to Minecraft !"
+description="A mod that brings Plants vs Zombies 95Version to Minecraft !"
 configBackground="pvz:textures/block/amethyst_block.png"
 
 [[dependencies.pvz]]

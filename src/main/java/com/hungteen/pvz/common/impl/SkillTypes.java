@@ -97,7 +97,7 @@ public class SkillTypes {
 
     //spike rock
     public static final ISkillType MORE_SPIKE = new SkillType("more_spike",
-            ArrayUtil.getAverageArray(4, 4F, 13F),
+            ArrayUtil.getAverageArray(9, 4F, 13F),
             Arrays.asList(1, 3, 5)
     );
 
