@@ -124,6 +124,7 @@ public abstract class PlantShooterEntity extends PVZPlantEntity implements IShoo
 		bullet.summonByOwner(this);
         bullet.setAttackDamage(this.getAttackDamage());
 		level.addFreshEntity(bullet);
+
 	}
 
 	protected abstract AbstractBulletEntity createBullet();

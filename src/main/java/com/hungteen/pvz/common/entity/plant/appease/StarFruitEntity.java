@@ -8,19 +8,16 @@ import com.hungteen.pvz.common.impl.SkillTypes;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.utils.EntityUtil;
-import net.minecraft.command.arguments.EntityAnchorArgument.Type;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class StarFruitEntity extends PlantShooterEntity {
+	public static final float PER_ANGLE = 180F / 5;
+	private static final float SHOOT_HEIGHT = 0.2F;
 
-	private static final double RIGHT_OFFSET = 0.6D;
-
-	private static final double FORWARD_OFFSET = -0.4D;
 	public int lightTick = 0;
 
 	public StarFruitEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
@@ -52,12 +49,11 @@ public class StarFruitEntity extends PlantShooterEntity {
    //子弹5分叉
 	@Override
 	public void shootBullet() {
-			this.performShoot(0, RIGHT_OFFSET*2, 0, false, FORWARD_SHOOT_ANGLE);
-			this.performShoot(FORWARD_OFFSET, RIGHT_OFFSET, 0, false, FORWARD_SHOOT_ANGLE);
-			this.performShoot(FORWARD_OFFSET*2, 0, 0, true, FORWARD_SHOOT_ANGLE);
-			this.performShoot(FORWARD_OFFSET, -RIGHT_OFFSET, 0, false, FORWARD_SHOOT_ANGLE);
-			this.performShoot(0, -RIGHT_OFFSET*2, 0, false, FORWARD_SHOOT_ANGLE);
-
+		float now = this.yHeadRot -90;
+			for(int i = 0; i < 5; ++ i) {
+				now += PER_ANGLE;
+				this.shootByAngle(now, SHOOT_HEIGHT);
+		}
 		EntityUtil.playSound(this, SoundRegister.SNOW_SHOOT.get());
 	}
 
@@ -86,8 +82,6 @@ public class StarFruitEntity extends PlantShooterEntity {
 	public void startShootAttack() {
 		this.setAttackTime(2);
 	}
-
-
 
 	@Override
 	public IPlantType getPlantType() {

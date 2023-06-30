@@ -8,6 +8,8 @@ import com.hungteen.pvz.common.event.handler.PlayerEventHandler;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.utils.EntityUtil;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -55,7 +57,14 @@ public class PVZLivingEvents {
 			LivingEventHandler.handleHurtDamage(ev);
 		}
 	}
-	
+	@SubscribeEvent
+	public static void PlayerDamage(LivingHurtEvent event) {
+		LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
+		Entity entity =event.getEntity();
+        if(attacker instanceof PlayerEntity&&entity instanceof AbstractPAZEntity){
+			event.setAmount(event.getAmount()*0.2f);
+		}
+	}
 	@SubscribeEvent
 	public static void onLivingDamage(LivingDamageEvent ev) {
 		AbstractPAZEntity.damageInnerDefence(ev);
