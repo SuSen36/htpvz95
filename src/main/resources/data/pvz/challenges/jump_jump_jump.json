@@ -30,7 +30,7 @@
           }
         }
       ],
-      "duration": 450
+      "duration": 450000
     },
     {
       "spawns": [
@@ -45,7 +45,7 @@
           }
         }
       ],
-      "duration": 450
+      "duration": 450000
     },
     {
       "spawns": [
@@ -60,7 +60,7 @@
           }
         }
       ],
-      "duration": 600
+      "duration": 600000
     },
     {
       "spawns": [
@@ -75,7 +75,7 @@
           }
         }
       ],
-      "duration": 600
+      "duration": 600000
     },
     {
       "spawns": [
@@ -90,7 +90,7 @@
           }
         }
       ],
-      "duration": 450
+      "duration": 450000
     },
     {
       "spawns": [
@@ -115,7 +115,7 @@
           }
         }
       ],
-      "duration": 840
+      "duration": 840000
     },
     {
       "spawns": [
@@ -170,7 +170,7 @@
           }
         }
       ],
-      "duration": 1800
+      "duration": 180000
     }
   ],
   "rewards": {

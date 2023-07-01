@@ -97,7 +97,7 @@ public class SquashEntity extends PVZPlantEntity{
 	 * jump to the top of the target.
 	 * {@link #normalPlantTick()}
 	 */
-	private void jumpToTarget(LivingEntity target) {
+	protected void jumpToTarget(LivingEntity target) {
 		final int tick = 10;
 		this.canCollideWithPlant = false;
 		this.isImmuneToWeak = true;

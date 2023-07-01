@@ -171,7 +171,6 @@ public class EntityRegister {
 	public static final RegistryObject<EntityType<DestroyCarEntity>> DESTROY_CAR = registerEntityType(DestroyCarEntity::new, "destroy_car", EntityClassification.MISC);
 	public static final RegistryObject<EntityType<GardenRakeEntity>> GARDEN_RAKE = registerEntityType(GardenRakeEntity::new, "garden_rake", EntityClassification.MISC);
 	public static final RegistryObject<EntityType<ZombieDropBodyEntity>> ZOMBIE_DROP_BODY = registerEntityType(ZombieDropBodyEntity::new, "zombie_drop_body", EntityClassification.MISC);
-
 	/**
 	 * animals
 	 */
@@ -296,7 +295,8 @@ public class EntityRegister {
 	public static final RegistryObject<EntityType<BonkChoyEntity>> BONK_CHOY = registerPlantEntityType(BonkChoyEntity::new, "bonk_choy");
 	public static final RegistryObject<EntityType<ImitaterEntity>> IMITATER = registerPlantEntityType(ImitaterEntity::new, "imitater");
 	public static final RegistryObject<EntityType<CobCannonEntity>> COB_CANNON = registerPlantEntityType(CobCannonEntity::new, "cob_cannon");
-	
+	public static final RegistryObject<EntityType<TallNutEntity.NutSquashEntity>> NUT_SQUASH = registerPlantEntityType(TallNutEntity.NutSquashEntity::new, "nut_squash");
+
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
     public static void onClientSetUpEvent(FMLClientSetupEvent event) {
@@ -343,8 +343,8 @@ public class EntityRegister {
         RenderingRegistry.registerEntityRenderingHandler(DESTROY_CAR.get(), DestroyCarRender::new);
         RenderingRegistry.registerEntityRenderingHandler(GARDEN_RAKE.get(), GardenRakeRender::new);
         RenderingRegistry.registerEntityRenderingHandler(ZOMBIE_DROP_BODY.get(), ZombieBodyRender::new);
-        
-        // animals
+
+		// animals
         RenderingRegistry.registerEntityRenderingHandler(FOODIE_ZOMBIE.get(), FoodieZombieRender::new);
         
         // npc
@@ -466,7 +466,10 @@ public class EntityRegister {
         RenderingRegistry.registerEntityRenderingHandler(BAMBOO_LORD.get(), BambooLordRender::new);
         RenderingRegistry.registerEntityRenderingHandler(ICEBERG_LETTUCE.get(), IcebergLettuceRender::new);
         RenderingRegistry.registerEntityRenderingHandler(BONK_CHOY.get(), BonkChoyRender::new);
-    }
+
+		RenderingRegistry.registerEntityRenderingHandler(NUT_SQUASH.get(), NutSquashRender::new);
+
+	}
 	
 	@SubscribeEvent
 	public static void addEntityAttributes(EntityAttributeCreationEvent ev) {

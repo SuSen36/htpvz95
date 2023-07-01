@@ -8,9 +8,9 @@ import com.hungteen.pvz.client.model.entity.plant.enforce.BonkChoyModel;
 import com.hungteen.pvz.client.model.entity.plant.explosion.BambooLordModel;
 import com.hungteen.pvz.client.model.entity.plant.ice.IcebergLettuceModel;
 import com.hungteen.pvz.client.model.entity.plant.light.GoldLeafModel;
+import com.hungteen.pvz.common.entity.EntityRegister;
 import com.hungteen.pvz.common.impl.*;
 import com.hungteen.pvz.common.item.ItemRegister;
-import com.hungteen.pvz.common.entity.EntityRegister;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,7 +70,9 @@ public final class OtherPlants extends PlantType {
 			.plantModel(() -> BambooLordModel::new).scale(1F)
 			.commonSkill(Arrays.asList(SkillTypes.SMALL_BOMB_DAMAGE))
 	);
-	
+	public static final IPlantType NUT_SQUASH = new OtherPlants("nut_squash", new PlantFeatures()
+			.entityType(() -> EntityRegister.NUT_SQUASH.get())
+	);
 	public static void register() {
 		PVZAPI.get().registerPlantTypes(LIST);
 	}

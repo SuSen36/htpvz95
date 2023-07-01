@@ -213,7 +213,9 @@
     "entity.pvz.zombie_part":"Zombie Part",
     "entity.pvz.zombie_drop_body":"Zombie Body",
     "entity.pvz.gift_box": "Gift Box",
-    
+    "entity.pvz.nut_squash":"Wrath Nut",
+
+
     "entity.pvz.foodie_zombie":"FoodieZombie",
     "item.pvz.foodie_zombie_spawn_egg":"FoodieZombie Spawn Egg", 
     "entity.pvz.crazy_dave":"Crazy Dave",

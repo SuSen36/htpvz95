@@ -33,7 +33,7 @@
           }
         }
       ],
-      "duration": 1000
+      "duration": 100000
     },
     {
       "spawns": [
@@ -52,7 +52,7 @@
           }
         }
       ],
-      "duration": 1000
+      "duration": 100000
     }
   ],
   "rewards": {

@@ -212,6 +212,7 @@
   "entity.pvz.zombie_part": "僵尸防具",
   "entity.pvz.zombie_drop_body": "僵尸肢体",
   "entity.pvz.gift_box": "礼物盒",
+  "entity.pvz.nut_squash":"愤怒坚果",
 
   "entity.pvz.foodie_zombie": "吃货僵尸",
   "item.pvz.foodie_zombie_spawn_egg": "吃货僵尸刷怪蛋",
