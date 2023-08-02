@@ -38,8 +38,7 @@ public class PeaShooterEntity extends PlantShooterEntity{
 	@Override
 	protected AbstractBulletEntity createBullet() {
 		final PeaEntity pea = new PeaEntity(this.level, this, this.getShootType(), this.getShootState());
-//		if(this.getRandom().nextFloat() < this.getKBChance()){
-//		}
+
 		return pea;
 	}
 

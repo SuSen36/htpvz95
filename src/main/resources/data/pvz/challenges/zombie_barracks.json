@@ -70,7 +70,7 @@
           }
         }
       ],
-      "duration": 800000
+      "duration": 80000
     },
     {
       "spawns": [
@@ -165,7 +165,7 @@
           }
         }
       ],
-      "duration": 800000
+      "duration": 80000
     }
   ],
   "rewards": {

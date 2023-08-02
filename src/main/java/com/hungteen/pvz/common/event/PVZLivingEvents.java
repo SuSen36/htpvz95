@@ -3,6 +3,7 @@ package com.hungteen.pvz.common.event;
 import com.hungteen.pvz.PVZMod;
 import com.hungteen.pvz.common.entity.AbstractPAZEntity;
 import com.hungteen.pvz.common.entity.plant.magic.StrangeCatEntity;
+import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
 import com.hungteen.pvz.common.event.handler.LivingEventHandler;
 import com.hungteen.pvz.common.event.handler.PlayerEventHandler;
 import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
@@ -12,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -57,12 +59,20 @@ public class PVZLivingEvents {
 			LivingEventHandler.handleHurtDamage(ev);
 		}
 	}
+
 	@SubscribeEvent
 	public static void PlayerDamage(LivingHurtEvent event) {
+		Entity entity = event.getEntity();
 		LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
-		Entity entity =event.getEntity();
-        if(attacker instanceof PlayerEntity&&entity instanceof AbstractPAZEntity){
-			event.setAmount(event.getAmount()*0.2f);
+		if (entity instanceof PVZZombieEntity && attacker instanceof PlayerEntity) {
+
+			if (((PVZZombieEntity) entity).hasEffect(Effects.WEAKNESS)) {
+				 if (((PVZZombieEntity) entity).getHealth()<=300) {
+					event.setAmount(event.getAmount());
+				}
+			}else {
+				event.setAmount(event.getAmount() * 0.8f);
+			}
 		}
 	}
 	@SubscribeEvent

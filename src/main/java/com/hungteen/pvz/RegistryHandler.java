@@ -1,6 +1,7 @@
 package com.hungteen.pvz;
 
 import com.hungteen.pvz.client.particle.ParticleRegister;
+import com.hungteen.pvz.common.CommonRegister;
 import com.hungteen.pvz.common.block.BlockRegister;
 import com.hungteen.pvz.common.capability.CapabilityHandler;
 import com.hungteen.pvz.common.container.ContainerRegister;
@@ -17,7 +18,6 @@ import com.hungteen.pvz.common.impl.plant.PVZPlants;
 import com.hungteen.pvz.common.impl.zombie.*;
 import com.hungteen.pvz.common.item.ItemRegister;
 import com.hungteen.pvz.common.item.misc.PVZSpawnEggItem;
-import com.hungteen.pvz.common.CommonRegister;
 import com.hungteen.pvz.common.misc.sound.SoundRegister;
 import com.hungteen.pvz.common.network.PVZPacketHandler;
 import com.hungteen.pvz.common.potion.EffectRegister;

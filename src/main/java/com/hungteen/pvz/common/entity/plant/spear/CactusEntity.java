@@ -26,8 +26,8 @@ public class CactusEntity extends PlantShooterEntity {
 	private static final float MIN_SHOOT_HEIGHT = 1.25F;
 	private static final float MAX_SHOOT_HEIGHT = MIN_SHOOT_HEIGHT + MAX_SEGMENT_NUM * SEGMENT_HEIGHT;
 	protected static final double SHOOT_OFFSET = 0.3D; //pea position offset
-	
-	
+
+
 	public CactusEntity(EntityType<? extends CreatureEntity> type, World worldIn) {
 		super(type, worldIn);
 	}
@@ -38,49 +38,54 @@ public class CactusEntity extends PlantShooterEntity {
 		this.entityData.define(CACTUS_HEIGHT, 0f);
 		this.entityData.define(POWERED, false);
 	}
-	
+
 	@Override
 	public void normalPlantTick() {
 		super.normalPlantTick();
-		if(! level.isClientSide) {
+		if (!level.isClientSide) {
 			final LivingEntity target = this.getTarget();
-			if(EntityUtil.isEntityValid(target)) {
-				if(! this.isSuitableHeight(target)) {
+			if (EntityUtil.isEntityValid(target)) {
+				if (!this.isSuitableHeight(target)) {
 					final float dh = SEGMENT_HEIGHT;
-				    if(this.getY() < target.getY()) {
-					    this.setCactusHeight(Math.min(this.getCactusHeight() + dh, SEGMENT_HEIGHT * MAX_SEGMENT_NUM));
-				    } else {
-				    	this.setCactusHeight(Math.max(this.getCactusHeight() - dh, 0));
-				    }
+					if (this.getY() < target.getY()) {
+						this.setCactusHeight(Math.min(this.getCactusHeight() + dh, SEGMENT_HEIGHT * MAX_SEGMENT_NUM));
+					} else {
+						this.setCactusHeight(Math.max(this.getCactusHeight() - dh, 0));
+					}
 				}
 			} else {
 				this.setCactusHeight(0);
 			}
 		}
 	}
-	
+
 	@Override
 	public void onSyncedDataUpdated(DataParameter<?> data) {
 		super.onSyncedDataUpdated(data);
-		if(data.equals(CACTUS_HEIGHT)){
+		if (data.equals(CACTUS_HEIGHT)) {
 			this.refreshDimensions();
 		}
 	}
-	
+
 	@Override
 	public void shootBullet() {
 		this.performShoot(SHOOT_OFFSET, 0, 0, this.getAttackTime() == 1, FORWARD_SHOOT_ANGLE);
 	}
-	
+
 	@Override
 	protected AbstractBulletEntity createBullet() {
-		final ThornEntity thorn = new ThornEntity(level, this);
-		thorn.setThornType(ThornTypes.NORMAL);
-		thorn.setThornState(this.isCactusPowered() ? ThornStates.POWER : ThornStates.NORMAL);
-		thorn.setExtraHitCount(this.isCactusPowered() ? this.getThornCount() : 5);//5段穿透
+		ThornEntity thorn = new ThornEntity(level, this);
+
+			thorn.setThornType(ThornTypes.NORMAL);
+			thorn.setThornState(this.isCactusPowered() ? ThornStates.POWER : ThornStates.NORMAL);
+			if (!EntityUtil.isEntityBoss(this.getTarget())) {
+				thorn.setExtraHitCount(this.isCactusPowered() ? this.getThornCount() : 3);
+			//5段穿透
+		}
 		return thorn;
 	}
-	
+
+
 	
 //	@Override
 //	public boolean hurt(DamageSource source, float amount) {
@@ -97,7 +102,7 @@ public class CactusEntity extends PlantShooterEntity {
 	}
 
 	public int getThornCount() {
-		return 8;
+		return 6;
 	}
 	
 	public float getCurrentHeight() {

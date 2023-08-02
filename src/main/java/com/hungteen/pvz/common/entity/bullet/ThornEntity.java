@@ -145,8 +145,7 @@ public class ThornEntity extends AbstractBulletEntity {
 			target.invulnerableTime = 0;
 			if(!(this.getThornType()==ThornTypes.AUTO)){
 			this.dealThornDamage(target);
-			}else if(this.tickCount % 40 == 0
-			) {
+			}else if(this.tickCount % 40 == 0){
 				this.dealThornDamage(target);}// attack}
 			if (this.getThornType() == ThornTypes.GUIDE) {
 				this.setThornType(ThornTypes.AUTO);
@@ -167,7 +166,7 @@ public class ThornEntity extends AbstractBulletEntity {
 	}
 
 	protected void dealThornDamage(Entity target){
-		target.hurt(PVZEntityDamageSource.causeThornDamage(this, this), this.getAttackDamage());
+		target.hurt(PVZEntityDamageSource.causeThornDamage(this, this.getOwner()), this.getAttackDamage());
 	}
 	
 	@Override

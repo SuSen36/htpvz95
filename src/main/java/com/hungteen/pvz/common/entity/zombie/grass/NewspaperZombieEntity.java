@@ -13,7 +13,6 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
@@ -46,18 +45,12 @@ public class NewspaperZombieEntity extends DefenceZombieEntity {
 		super.onOuterDefenceBroken();
 		if(! this.level.isClientSide){
 			this.addEffect(EffectUtil.effect(Effects.MOVEMENT_SPEED, 120000, 4));
+			this.addEffect(EffectUtil.effect(Effects.DAMAGE_RESISTANCE,60,99));
 			this.addEffect(EffectUtil.effect(Effects.DIG_SPEED, 120000, 5));
 			EntityUtil.playSound(this, SoundRegister.ZOMBIE_ANGRY.get());
 		}
 	}
-	//报纸防爆
-	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		if(!this.isAngry()&&source.isExplosion()){
-			return false;
-		}
-		return super.hurt(source, amount);
-	}
+
 	@Override
 	public boolean canLostHand() {
 		return super.canLostHand() && this.isAngry();

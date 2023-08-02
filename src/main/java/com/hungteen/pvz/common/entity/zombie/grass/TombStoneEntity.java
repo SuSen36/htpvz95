@@ -4,8 +4,6 @@ import com.hungteen.pvz.api.types.IZombieType;
 import com.hungteen.pvz.common.entity.EntityRegister;
 import com.hungteen.pvz.common.entity.plant.assist.GraveBusterEntity;
 import com.hungteen.pvz.common.entity.zombie.PVZZombieEntity;
-import com.hungteen.pvz.common.entity.zombie.other.NobleZombieEntity;
-import com.hungteen.pvz.common.entity.zombie.roof.Edgar090505Entity;
 import com.hungteen.pvz.common.impl.zombie.GrassZombies;
 import com.hungteen.pvz.common.impl.zombie.ZombieType;
 import com.hungteen.pvz.utils.EntityUtil;
@@ -15,6 +13,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -36,8 +35,7 @@ public class TombStoneEntity extends AbstractTombStoneEntity {
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new TombStoneSummonZombieGoal(this));
-		this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, NobleZombieEntity.class, true));
-		this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Edgar090505Entity.class, true));
+		this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 	}
 
 	public void activateByWave() {
@@ -46,7 +44,9 @@ public class TombStoneEntity extends AbstractTombStoneEntity {
 	
 	public static void spawnTombStone(World world, BlockPos pos) {
 		TombStoneEntity tomb = EntityRegister.TOMB_STONE.get().create(world);
-		tomb.setZombieRising();
+		if (tomb != null) {
+			tomb.setZombieRising();
+		}
 		EntityUtil.onEntitySpawn(world, tomb, pos);
 	}
 	

@@ -1,13 +1,14 @@
 package com.hungteen.pvz.common.item.spawn.card;
 
+import com.hungteen.pvz.PVZConfig;
 import com.hungteen.pvz.api.types.ICoolDown;
 import com.hungteen.pvz.api.types.IPlantType;
 import com.hungteen.pvz.client.render.itemstack.ImitaterCardISTER;
 import com.hungteen.pvz.common.container.ImitaterContainer;
 import com.hungteen.pvz.common.container.inventory.ItemInventory;
 import com.hungteen.pvz.common.entity.plant.magic.ImitaterEntity;
-import com.hungteen.pvz.common.impl.plant.PlantType;
 import com.hungteen.pvz.common.impl.plant.PVZPlants;
+import com.hungteen.pvz.common.impl.plant.PlantType;
 import com.hungteen.pvz.common.item.PVZItemGroups;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.util.ITooltipFlag;
@@ -62,14 +63,14 @@ public class ImitaterCardItem extends PlantCardItem {
 		ItemStack heldStack = player.getItemInHand(handIn);
 		final ItemStack plantStack = getImitatedCard(heldStack);
 		/* left hand to open gui */
-		if(handIn == Hand.OFF_HAND) {
+		if(handIn == Hand.OFF_HAND && !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 			if(! world.isClientSide) {
 				this.openImitateGui(player);
 			}
 			return ActionResult.success(heldStack);
 		}
 		/* imitated card use */
-		if(plantStack.getItem() instanceof PlantCardItem) {
+		if(plantStack.getItem() instanceof PlantCardItem && !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 			return super.use(world, player, handIn);
 		}
 		return ActionResult.fail(heldStack);
@@ -81,21 +82,21 @@ public class ImitaterCardItem extends PlantCardItem {
 		final ItemStack heldStack = context.getItemInHand();
 		final ItemStack plantStack = getImitatedCard(heldStack);
 		/* left hand click means open gui */
-		if(context.getHand() == Hand.OFF_HAND) {
+		if(context.getHand() == Hand.OFF_HAND&& !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 			if(! player.level.isClientSide) {
 				this.openImitateGui(player);
 			}
 			return ActionResultType.SUCCESS;
 		}
 		/* imitated card use on block */ 
-		if(plantStack.getItem() instanceof PlantCardItem) {
+		if(plantStack.getItem() instanceof PlantCardItem&& !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 			return super.useOn(context);
 		}
 		return ActionResultType.FAIL;
 	}
 	
 	private void openImitateGui(PlayerEntity player) {
-		if (player instanceof ServerPlayerEntity) {
+		if (player instanceof ServerPlayerEntity&& !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 			NetworkHooks.openGui((ServerPlayerEntity) player, new INamedContainerProvider() {
 
 				@Override
@@ -114,7 +115,7 @@ public class ImitaterCardItem extends PlantCardItem {
 	
 	public static boolean summonImitater(PlayerEntity player, ItemStack heldStack, ItemStack plantStack, PlantCardItem cardItem, BlockPos pos, Consumer<ImitaterEntity> consumer) {
 		return PlantCardItem.handlePlantEntity(player, PVZPlants.IMITATER, plantStack, pos, i -> {
-			if(i instanceof ImitaterEntity) {
+			if(i instanceof ImitaterEntity&& !PVZConfig.COMMON_CONFIG.RuleSettings.ImitaterBan.get()) {
 				final ImitaterEntity imitater = (ImitaterEntity) i;
 				imitater.setImitateCard(plantStack.copy());
     	        imitater.setDirection(player.getDirection().getOpposite());

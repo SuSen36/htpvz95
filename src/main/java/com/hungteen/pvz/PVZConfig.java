@@ -17,7 +17,7 @@ public class PVZConfig {
                 InvasionSettings.SafeDayLength = builder
                         .translation("config.pvz.invasion.safe_day")
                         .comment("If you set to 5, then the first 5 * 20 minutes of the world will not have any zombie invasion event.")
-                        .defineInRange("SafeDayLength", 4, 0, 1000000);
+                        .defineInRange("SafeDayLength", 2, 0, 1000000);
 
                 InvasionSettings.ScatterInvasions = builder
                         .translation("config.pvz.invasion.scatter_invasions")
@@ -27,7 +27,7 @@ public class PVZConfig {
                 InvasionSettings.InvasionIntervalLength = builder
                         .translation("config.pvz.invasion.interval")
                         .comment("The interval day length between each invasion.")
-                        .defineInRange("InvasionIntervalLength", 2, 0, 1000000);
+                        .defineInRange("InvasionIntervalLength", 3, 0, 1000000);
 
                 InvasionSettings.ShowEventMessages = builder
                         .translation("config.pvz.invasion.show_message")
@@ -42,12 +42,12 @@ public class PVZConfig {
                 InvasionSettings.MaxSpawnEachPlayer = builder
                         .translation("config.pvz.invasion.spawn_count")
                         .comment("how many amount of entity will spawn to player.")
-                        .defineInRange("MaxSpawnCount", 30, 1, 1000);
+                        .defineInRange("MaxSpawnCount", 50, 1, 1000);
 
                 InvasionSettings.MaxSpawnRange = builder
                         .translation("config.pvz.invasion.spawn_range")
                         .comment("how far can entity spawn in invasion.")
-                        .defineInRange("MaxSpawnRange", 50, 1, 100);
+                        .defineInRange("MaxSpawnRange", 80, 1, 100);
 
             }
             builder.pop();
@@ -83,12 +83,12 @@ public class PVZConfig {
                 RuleSettings.AllZombieGiveXP = builder
                         .translation("config.pvz.rule.all_zombie_give_xp")
                         .comment("if turn to false, only invasion zombies will give tree xp.")
-                        .define("AllZombieGiveXP", false);
+                        .define("AllZombieGiveXP", true);
 
                 RuleSettings.DespawnOwnedEntityRange = builder
                         .translation("config.pvz.rule.despawn_owned_entity_range")
                         .comment("plants summoned by players will be naturally despawned if the distance to player's spawn point is farther than this number.")
-                        .defineInRange("DespawnOwnedEntityRange", 1000, -1, 100000);
+                        .defineInRange("DespawnOwnedEntityRange", 1000000, -1, 100000);
 
                 RuleSettings.GiveBeginnerReward = builder
                         .translation("config.pvz.rule.beginner_reward")
@@ -104,11 +104,15 @@ public class PVZConfig {
                         .translation("config.pvz.rule.team_attack")
                         .comment("if turn to true, when plant's owner is in a team, the plant will attack the entity from other team(include players).")
                         .define("PlantAttackTeam", false);
+                RuleSettings.ImitaterBan = builder
+                        .translation("config.pvz.rule.imitater")
+                        .comment("if turn ，Disable Imitater.")
+                        .define("ImitaterBan", false);
 
                 RuleSettings.LimitPlantCount = builder
                         .translation("config.pvz.rule.plant_count")
                         .comment("how many plants can you place in 30 x 30 area without increasing cost.")
-                        .defineInRange("LimitPlantCount", 50, 10, 1000);
+                        .defineInRange("LimitPlantCount", 60, 10, 1000);
 
                 RuleSettings.NeedUnlockToPlant = builder
                         .translation("config.pvz.rule.unlock_plant")
@@ -266,7 +270,7 @@ public class PVZConfig {
                     EntitySettings.ZombieSetting.ImmuneDamage = builder
                             .translation("config.pvz.zombie.immune_damage")
                             .comment("if on, fire & explode damages will not hurt most of the zombies.")
-                            .define("ImmuneToEnvironmentDamage", true);
+                            .define("ImmuneToEnvironmentDamage", false);
 
                 }
                 builder.pop();
@@ -408,6 +412,7 @@ public class PVZConfig {
             public ForgeConfigSpec.BooleanValue GiveBeginnerReward;
             public ForgeConfigSpec.BooleanValue AllowNaturalTurnOrigin;
             public ForgeConfigSpec.BooleanValue TeamAttack;
+            public ForgeConfigSpec.BooleanValue ImitaterBan;;
             public ForgeConfigSpec.IntValue LimitPlantCount;
             public ForgeConfigSpec.BooleanValue NeedUnlockToPlant;
             public ForgeConfigSpec.BooleanValue KeepSunWhenDie;
