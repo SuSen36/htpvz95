@@ -26,6 +26,8 @@ public class StarEntity extends AbstractBulletEntity {
 			DataSerializers.BOOLEAN);
 	private static final DataParameter<Float> CHANGE_DISTANCE = EntityDataManager.defineId(StarEntity.class,
 			DataSerializers.FLOAT);
+	private static final DataParameter<Boolean> CAN_DIR_CHANGE = EntityDataManager.defineId(StarEntity.class,
+			DataSerializers.BOOLEAN);
 	private static final DataParameter<Integer> STAR_TYPE = EntityDataManager.defineId(StarEntity.class,
 			DataSerializers.INT);
 	private static final DataParameter<Integer> STAR_STATE = EntityDataManager.defineId(StarEntity.class,
@@ -40,7 +42,7 @@ public class StarEntity extends AbstractBulletEntity {
 		this.setStarType(starType);
 		this.setStarState(starState);
 		if(directionChanged && direction != Vector3d.ZERO)this.setTargetDirection(direction);
-		this.setDirectionChanged(!directionChanged);
+		this.setCanDirectionChange(directionChanged);
 	}
 
 	@Override
@@ -52,13 +54,14 @@ public class StarEntity extends AbstractBulletEntity {
 		this.entityData.define(TARGET_DIR, Vector3d.ZERO);
 		this.entityData.define(DIR_CHANGED, false);
 		this.entityData.define(CHANGE_DISTANCE, 1.0f);
+		this.entityData.define(CAN_DIR_CHANGE, true);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		if (!level.isClientSide && !this.isDirectionChanged()) {
+		if (!level.isClientSide && this.isCanChange() && !this.isDirectionChanged()) {
 			if (getStartPos().equals(Vector3d.ZERO)) {
 				setStartPos(position());
 				return;
@@ -144,7 +147,7 @@ public class StarEntity extends AbstractBulletEntity {
 	 */
 	@OnlyIn(Dist.CLIENT)
 	public void lerpMotion(double x, double y, double z) {
-		if (isDirectionChanged()) {
+		if (isCanChange()) {
 			Vector3d targetDir = getTargetDirection();
 			double speed = Math.sqrt(x*x + z*z);
 
@@ -153,13 +156,16 @@ public class StarEntity extends AbstractBulletEntity {
 					y,
 					targetDir.z * speed
 			);
+            this.yRot = 0;
+            this.yRotO = this.yRot;
+            this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
+        } else {
+			this.setDeltaMovement(x, y, z);
 			if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
 				this.yRot += 10;
 				this.yRotO = this.yRot;
 				this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
 			}
-		} else {
-			super.lerpMotion(x, y, z);
 		}
 	}
 
@@ -191,6 +197,7 @@ public class StarEntity extends AbstractBulletEntity {
 		// 读取其他参数
 		this.setDirectionChanged(compound.getBoolean("direction_changed"));
 		this.setChangeDistance((float) compound.getDouble("change_distance"));
+		this.setCanDirectionChange(compound.getBoolean("can_dir_change"));
 		if(compound.contains("star_state")) {
 			this.setStarState(StarStates.values()[compound.getInt("star_state")]);
 		}
@@ -219,6 +226,7 @@ public class StarEntity extends AbstractBulletEntity {
 
 		compound.putBoolean("direction_changed", this.isDirectionChanged());
 		compound.putDouble("change_distance", this.getChangeDistance());
+		compound.putBoolean("can_dir_change", this.isCanChange());
 		compound.putInt("star_state", this.getStarState().ordinal());
 		compound.putInt("star_type", this.getStarType().ordinal());
 	}
@@ -289,6 +297,13 @@ public class StarEntity extends AbstractBulletEntity {
 		this.entityData.set(DIR_CHANGED, changed);
 	}
 
+	public void setCanDirectionChange(boolean can) {
+		this.entityData.set(CAN_DIR_CHANGE, can);
+	}
+
+	public boolean isCanChange() {
+		return this.entityData.get(CAN_DIR_CHANGE);
+	}
 	public enum StarStates {
 		YELLOW, PINK
 	}
