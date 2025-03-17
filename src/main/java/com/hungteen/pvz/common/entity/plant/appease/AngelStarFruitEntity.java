@@ -12,6 +12,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class AngelStarFruitEntity extends PlantShooterEntity {
@@ -78,7 +79,7 @@ public class AngelStarFruitEntity extends PlantShooterEntity {
 	@Override
 	protected AbstractBulletEntity createBullet() {
 		final StarEntity.StarTypes type = this.isPlantInSuperMode() ? StarEntity.StarTypes.BIG : StarEntity.StarTypes.NORMAL;
-		return new StarEntity(level, this, type, StarEntity.StarStates.PINK);
+		return new StarEntity(level, this, type, Vector3d.ZERO,false,StarEntity.StarStates.PINK);
 	}
 	
 	@Override

@@ -12,10 +12,11 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class StarFruitEntity extends PlantShooterEntity {
-	public static final float PER_ANGLE = 180F / 5;
+	public static final float PER_ANGLE = 360F / 5;
 	private static final float SHOOT_HEIGHT = 0.2F;
 
 	public int lightTick = 0;
@@ -49,10 +50,10 @@ public class StarFruitEntity extends PlantShooterEntity {
    //子弹5分叉
 	@Override
 	public void shootBullet() {
-		float now = this.yHeadRot -90;
-			for(int i = 0; i < 5; ++ i) {
-				now += PER_ANGLE;
-				this.shootByAngle(now, SHOOT_HEIGHT);
+		float now = this.yRot + 180F;
+		for(int i = 0; i < 5; ++ i) {
+			this.shootByAngle(now, SHOOT_HEIGHT);
+			now += PER_ANGLE;
 		}
 		EntityUtil.playSound(this, SoundRegister.SNOW_SHOOT.get());
 	}
@@ -60,7 +61,8 @@ public class StarFruitEntity extends PlantShooterEntity {
 	@Override
 	protected AbstractBulletEntity createBullet() {
 		final StarEntity.StarTypes type = this.isPlantInSuperMode() ? StarEntity.StarTypes.HUGE : StarEntity.StarTypes.NORMAL;
-		return new StarEntity(level, this, type, StarEntity.StarStates.YELLOW);
+		Vector3d direction = this.getTarget()==null ? this.getLookAngle() : EntityUtil.getNormalisedVector2d(this, this.getTarget());
+		return new StarEntity(level, this, type,direction,true ,StarEntity.StarStates.YELLOW);
 	}
 
 	@Override

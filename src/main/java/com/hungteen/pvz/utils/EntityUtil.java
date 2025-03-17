@@ -36,6 +36,8 @@ import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.scoreboard.Team;
@@ -690,5 +692,31 @@ public class EntityUtil {
 		}
 		return entity.isInvulnerable();
 	}
-	
+
+	/**
+	 * Vector3d 的实体数据序列化器
+	 * 支持服务端与客户端间双向同步三维坐标
+	 */
+	public static final IDataSerializer<Vector3d> VECTOR3D_SERIALIZER = new IDataSerializer<Vector3d>() {
+		@Override
+		public void write(PacketBuffer buffer, Vector3d vec) {
+			buffer.writeDouble(vec.x);
+			buffer.writeDouble(vec.y);
+			buffer.writeDouble(vec.z);
+		}
+
+		@Override
+		public Vector3d read(PacketBuffer buffer) {
+			return new Vector3d(
+					buffer.readDouble(),
+					buffer.readDouble(),
+					buffer.readDouble()
+			);
+		}
+
+		@Override
+		public Vector3d copy(Vector3d vector3d) {
+			return vector3d;
+		}
+	};
 }

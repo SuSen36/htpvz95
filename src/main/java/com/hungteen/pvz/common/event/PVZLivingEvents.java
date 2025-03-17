@@ -10,7 +10,6 @@ import com.hungteen.pvz.common.misc.PVZEntityDamageSource;
 import com.hungteen.pvz.utils.EntityUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.Effects;
@@ -63,7 +62,7 @@ public class PVZLivingEvents {
 	@SubscribeEvent
 	public static void PlayerDamage(LivingHurtEvent event) {
 		Entity entity = event.getEntity();
-		LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
+		Entity attacker = event.getSource().getEntity();
 		if (entity instanceof PVZZombieEntity && attacker instanceof PlayerEntity) {
 
 			if (((PVZZombieEntity) entity).hasEffect(Effects.WEAKNESS)) {
