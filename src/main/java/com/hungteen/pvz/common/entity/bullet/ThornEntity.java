@@ -55,7 +55,7 @@ public class ThornEntity extends AbstractBulletEntity {
 			if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
 				float f = MathHelper.sqrt(getHorizontalDistanceSqr(vec));
 				this.yRot = (float) (MathHelper.atan2(vec.x, vec.z) * (double) (180F / (float) Math.PI));
-				this.xRot = (float) (MathHelper.atan2(vec.y, (double) f) * (double) (180F / (float) Math.PI));
+				this.xRot = (float) (MathHelper.atan2(vec.y, f) * (double) (180F / (float) Math.PI));
 				this.yRotO = this.yRot;
 				this.xRotO = this.xRot;
 			}
@@ -93,7 +93,7 @@ public class ThornEntity extends AbstractBulletEntity {
 		List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, EntityUtil.getEntityAABB(this, range, range), entity -> {
 			return ! entity.is(thornTarget) && EntityUtil.canSeeEntity(this, entity) && EntityUtil.canTargetEntity(this.getOwnerOrSelf(), entity);
 		});
-		if (list.size() == 0) {
+		if (list.isEmpty()) {
 			return null;
 		}
 		return list.get(0);
@@ -212,7 +212,7 @@ public class ThornEntity extends AbstractBulletEntity {
 		this.setDeltaMovement(x, y, z);
 		if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
 			float f = MathHelper.sqrt(x * x + z * z);
-			this.xRot = (float) (MathHelper.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
+			this.xRot = (float) (MathHelper.atan2(y, f) * (double) (180F / (float) Math.PI));
 			this.yRot = (float) (MathHelper.atan2(x, z) * (double) (180F / (float) Math.PI));
 			this.xRotO = this.xRot;
 			this.yRotO = this.yRot;

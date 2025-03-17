@@ -30,7 +30,9 @@ import com.hungteen.pvz.common.world.biome.BiomeRegister;
 import com.hungteen.pvz.common.world.challenge.ChallengeManager;
 import com.hungteen.pvz.common.world.structure.StructureRegister;
 import com.hungteen.pvz.utils.BiomeUtil;
+import com.hungteen.pvz.utils.EntityUtil;
 import net.minecraft.entity.EntityType;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -99,6 +101,7 @@ public class RegistryHandler {
     	PotionRecipeHandler.registerPotionRecipes();
     	CommonRegister.registerCompostable();
     	BiomeUtil.initBiomeSet();
+		DataSerializers.registerSerializer(EntityUtil.VECTOR3D_SERIALIZER);
     }
 	
 	/**

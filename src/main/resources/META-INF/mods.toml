@@ -1,15 +1,15 @@
 modLoader="javafml" 
 license="GNU LESSER GENERAL PUBLIC LICENSE" 
 loaderVersion="[36,)" 
-issueTrackerURL="https://github.com/HungTeen/pvzmod/issues"
+issueTrackerURL="https://github.com/SuSen36/htpvz95/issues"
 
 [[mods]]
 modId="pvz"
-version="0.6.5.1"
+version="0.6.6"
 displayName="Plants vs Zombies 95V"
 authors="SuSen36,_HungTeen_, Wolf__Crystal, Grass_Carp"
 logoFile="logo.png" 
-displayURL="https://github.com/Lzc-SuSen/htpvz95"
+displayURL="https://github.com/SuSen36/htpvz95"
 credits="Men_Tian_Bai, InkyTheSheep, Chompy, XXTT, 136(some of challenges), True Bebra(Russian translation) and so on."
 description="A mod that brings Plants vs Zombies 95Version to Minecraft !"
 configBackground="pvz:textures/block/amethyst_block.png"
